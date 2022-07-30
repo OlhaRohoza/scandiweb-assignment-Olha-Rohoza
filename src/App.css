@@ -1,38 +1,171 @@
-.App {
+* {
+  box-sizing: border-box;
+}
+
+.navigation {
+  /* Surface */
+  height: 80px;
+  width: 1440px;
+  left: 0px;
+  top: 0px;
+  border-radius: 0px;
+
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+
+  /* --c-white */
+  background: #FFFFFF;
+  /* display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center; */
+}
+
+.navigation__logo {
+  position: absolute;
+  width: 41px;
+  height: 41px;
+  left: 699px;
+  top: calc(50% - 41px/2 + 4.5px);
+}
+
+.navigation__header {
+  /* Navigation */
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0px;
+
+  position: absolute;
+  width: 234px;
+  height: 56px;
+  left: 101px;
+  bottom: 0px;
+}
+
+.navigation__header_elemet {
+  /* Label */
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 120%;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
   text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  /* --c-text */
+  color: #1D1F22;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.navigation__header_elemet--selected {
+  font-weight: 600;
+  color: #5ECE7B;
+  border-bottom: 2px solid #5ECE7B;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.navigation__actions {
+  /* Actions */
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0px;
+  gap: 22px;
+
+  position: absolute;
+  width: 204px;
+  height: 40px;
+  right: 101px;
+  top: 23px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.navigation__actions_currency {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 160%;
+  border: 0px;
+  outline: 0px;
+}
+
+.PLP__container {
+  margin-top: 160px;
+  margin-left: 101px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: flex-start;
+  padding: 0px;
+
+  /* position: absolute;
+  width: 386px;
+  height: 444px;
+  left: calc(50% - 386px/2 - 427px);
+  bottom: 191px; */
+
+  /* shadow */
+
+  /* filter: drop-shadow(0px 4px 35px rgba(168, 172, 176, 0.19)); */
 }
 
-.App-link {
-  color: #61dafb;
+.PLP__container h2 {
+  /* Heading / Desktop / H2 */
+
+  /* margin-top: 160px; */
+  /* position: absolute; */
+
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 42px;
+  line-height: 160%;
+  /* identical to box height, or 67px */
+
+  /* --c-text */
+  color: #1D1F22;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.PLP__cards {
+  display: flex;
+  /* justify-content: space-between; */
+  flex-wrap: wrap;
+}
+
+.PLP__card {
+  /* Product Card / Elements / Desktop */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px;
+
+  width: 386px;
+  height: 444px;
+  /* padding-left: 40px; */
+
+  /* --c-white */
+  background: #FFFFFF;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.PDP__container {
+  margin-top: 160px;
+  margin-left: 101px;
+  display: flex;
 }
