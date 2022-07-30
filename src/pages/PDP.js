@@ -7,7 +7,11 @@ class PDP extends Component {
         super(props)
         console.log(props.params);
         this.state = {
-            product: []
+            currency: 'USD',
+            product: [],
+            gallery: [],
+            attributes: [],
+            prices: []
         }
 
         this.queryProduct = `{
@@ -38,6 +42,7 @@ class PDP extends Component {
 
                                 }                              
                                 }`
+        this.handleChange = this.handleChange.bind(this)
     }
 
     async componentDidMount() {
@@ -50,19 +55,87 @@ class PDP extends Component {
             const data = await response.json();
             console.log(data.data.product);
             this.setState({ product: data.data.product });
+            this.setState({ gallery: data.data.product.gallery });
+            this.setState({ attributes: data.data.product.attributes });
+            this.setState({ prices: data.data.product.prices });
         } catch (err) {
             console.log(err);
         }
     }
 
-    render() {
-        const { product } = this.state;
+    handleChange(e) {
+        console.log(e.target.value);
+    }
 
-        return <div className="PDP__container">
-            <p>{product.id}</p>
-            <p>{product.name}</p>
-            <p>PDP - product description page, a.k.a. product page</p>
-        </div>
+    render() {
+        const { product, gallery, attributes, prices } = this.state;
+
+        return (
+            <div className="PDP__container">
+                <div className="PDP__pictures">
+                    <div className="PDP__pictures_small">
+                        {
+                            gallery && gallery.map((picture, i) => (
+                                <img key={i} src={picture} style={{ height: 100, width: 100 }} />
+                                // <img src={link} key={i} />
+                            ))
+                        }
+                    </div>
+                    {/* <img src={this.state.mainPicture} /> */}
+                </div>
+                <div className="PDP__product">
+                    <p>{product.name}</p>
+                    {/* <div>{product.description}</div> */}
+                    <div
+                        dangerouslySetInnerHTML={{ __html: product.description }}
+                    />
+                    <p>{product.brand}</p>
+                    {
+                        attributes && attributes.map(element => (
+                            <div className="attributes" key={element.id}>
+                                {
+                                    element.name === 'Color'
+                                        ? <>
+                                            <p>{element.name}</p>
+                                            {
+                                                element.items.map(item => (
+                                                    <div className="items" key={item.id}>
+                                                        <p style={{ height: 30, width: 30, border: '1px solid silver', textAlign: 'center', backgroundColor: item.value }}></p>
+                                                        {/* <p>{item.displayValue}</p> */}
+                                                    </div>
+                                                ))
+                                            }
+                                        </>
+                                        : <>
+                                            <p>{element.name}</p>
+
+                                            {
+                                                element.items.map(item => (
+                                                    <div className="items" key={item.id}>
+                                                        <p style={{ height: 30, width: 30, border: '1px solid silver', textAlign: 'center' }}>{item.value}</p>
+                                                        {/* <p>{item.displayValue}</p> */}
+                                                    </div>
+                                                ))
+                                            }
+
+                                        </>
+
+                                }
+                            </div>
+                        ))
+                    }
+                    <div>
+                        {!product.inStock
+                            ? <p>SOLD OUT</p>
+                            : <p>PRICE {this.state.currency}</p>
+                            // <p>{prices && prices.filter((price) => (price.currency.label === this.state.currency)).amount} {this.state.currency}<p>
+                        }
+                    </div>
+
+
+                </div>
+                <button>ADD TO CART</button>
+            </div>)
     }
 }
 
