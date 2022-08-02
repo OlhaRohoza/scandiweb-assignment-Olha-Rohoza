@@ -107,6 +107,7 @@
   margin-left: 101px;
   display: flex;
   flex-direction: column;
+  row-gap: 10px;
   align-items: flex-start;
   padding: 0px;
 
@@ -168,4 +169,93 @@
   margin-top: 160px;
   margin-left: 101px;
   display: flex;
+}
+
+.PLP__card:hover {
+  background: #FFFFFF;
+  box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
+}
+
+.PLP__card img {
+  max-width: 100%;
+  height: auto;
+
+}
+
+.PDP__pictures_small {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1em;
+}
+
+.PDP__product_details {
+  display: flex;
+  flex-direction: column;
+  width: 292px;
+  margin: 0 90px;
+}
+
+.PDP__product_brand {
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 27px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.PDP__product_name {
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 27px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.PDP__product_attribute-name {
+  font-family: Roboto Condensed;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.PDP__product_attribute-items {
+  display: flex;
+  gap: 10px;
+}
+
+.PDP__product_attribute-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 0.05em;
+  color: #292929;
+}
+
+.PDP__product_attribute-item p {
+
+  font-family: Source Sans Pro;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.05em;
+}
+
+.PDP__product_add-to-cart {
+  padding: 16px 32px;
+  width: 292px;
+  height: 52px;
+  background: #5ECE7B;
+  color: #FFFFFF;
+  border: none;
+}
+
+.PDP__product_attribute-price {
+  font-family: Raleway;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
 }

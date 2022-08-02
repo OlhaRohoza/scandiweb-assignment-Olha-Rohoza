@@ -72,52 +72,49 @@ class PDP extends Component {
 
         return (
             <div className="PDP__container">
-                <div className="PDP__pictures">
-                    <div className="PDP__pictures_small">
-                        {
-                            gallery && gallery.map((picture, i) => (
-                                <img key={i} src={picture} style={{ height: 100, width: 100 }} />
-                                // <img src={link} key={i} />
-                            ))
-                        }
-                    </div>
-                    {/* <img src={this.state.mainPicture} /> */}
+                <div className="PDP__pictures_small">
+                    {
+                        gallery && gallery.map((picture, i) => (
+                            <img key={i} src={picture} style={{ height: 79, width: 80, backgroundColor: 'white', objectFit: 'contain' }} />
+                            // <img src={link} key={i} />
+                        ))
+                    }
                 </div>
-                <div className="PDP__product">
-                    <p>{product.name}</p>
-                    {/* <div>{product.description}</div> */}
-                    <div
-                        dangerouslySetInnerHTML={{ __html: product.description }}
-                    />
-                    <p>{product.brand}</p>
+                <img src={gallery[0]} style={{
+                    marginLeft: 25, height: 510, width: 610, backgroundColor: '#white', objectFit: 'contain'
+                }} />
+                <div className="PDP__product_details">
+                    <p className="PDP__product_brand">{product.brand}</p>
+                    <p className="PDP__product_name">{product.name}</p>
                     {
                         attributes && attributes.map(element => (
                             <div className="attributes" key={element.id}>
                                 {
                                     element.name === 'Color'
                                         ? <>
-                                            <p>{element.name}</p>
-                                            {
-                                                element.items.map(item => (
-                                                    <div className="items" key={item.id}>
-                                                        <p style={{ height: 30, width: 30, border: '1px solid silver', textAlign: 'center', backgroundColor: item.value }}></p>
-                                                        {/* <p>{item.displayValue}</p> */}
-                                                    </div>
-                                                ))
-                                            }
+                                            <p className="PDP__product_attribute-name">{element.name}</p>
+                                            <div className="PDP__product_attribute-items">
+                                                {
+                                                    element.items.map(item => (
+                                                        <div className="PDP__product_attribute-item" key={item.id}
+                                                            style={{ height: 32, width: 32, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: item.value }}>
+                                                        </div>
+                                                    ))
+                                                }
+                                            </div>
                                         </>
                                         : <>
-                                            <p>{element.name}</p>
-
-                                            {
-                                                element.items.map(item => (
-                                                    <div className="items" key={item.id}>
-                                                        <p style={{ height: 30, width: 30, border: '1px solid silver', textAlign: 'center' }}>{item.value}</p>
-                                                        {/* <p>{item.displayValue}</p> */}
-                                                    </div>
-                                                ))
-                                            }
-
+                                            <p className="PDP__product_attribute-name">{element.name}</p>
+                                            <div className="PDP__product_attribute-items">
+                                                {
+                                                    element.items.map(item => (
+                                                        <div className="PDP__product_attribute-item" key={item.id}
+                                                            style={{ height: 54, width: 64, border: '1px solid #1D1F22', textAlign: 'center' }}>
+                                                            {item.value}
+                                                        </div>
+                                                    ))
+                                                }
+                                            </div>
                                         </>
 
                                 }
@@ -127,14 +124,20 @@ class PDP extends Component {
                     <div>
                         {!product.inStock
                             ? <p>SOLD OUT</p>
-                            : <p>PRICE {this.state.currency}</p>
-                            // <p>{prices && prices.filter((price) => (price.currency.label === this.state.currency)).amount} {this.state.currency}<p>
+                            :
+                            <>
+                                <p className="PDP__product_attribute-price">PRICE {this.state.currency}</p>
+                                {/* <p>{prices && prices.filter((price) => (price.currency.label === this.state.currency)).amount} {this.state.currency}<p> */}
+                                <button className="PDP__product_add-to-cart">ADD TO CART</button>
+                            </>
                         }
                     </div>
 
-
+                    <div
+                        dangerouslySetInnerHTML={{ __html: product.description }}
+                    />
                 </div>
-                <button>ADD TO CART</button>
+
             </div>)
     }
 }

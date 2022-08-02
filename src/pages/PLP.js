@@ -59,7 +59,9 @@ class PLP extends Component {
                 <div className="PLP__cards">
                     {category && category.slice(0, 6).map((item) => (
                         <div className="PLP__card" key={item.id} onClick={() => navigate(`/PDP/${item.id}`)}>
-                            <img src={item.gallery[0]} style={!item.inStock ? { width: 350, height: 330, opacity: 0.5 } : { width: 350, height: 330 }} />
+                            <img src={item.gallery[0]} style={!item.inStock
+                                ? { width: 350, height: 330, objectFit: 'contain', opacity: 0.5, backgroundColor: '#FFFFFF' }
+                                : { width: 350, height: 330, objectFit: 'contain' }} />
                             <p>{item.name}</p>
                             <p><strong>{item.prices.filter((price) => (price.currency.label == this.state.currency))[0].amount} {this.state.currency}</strong></p>
                             <p>{!item.inStock ? "SOLD OUT" : ''}</p>
