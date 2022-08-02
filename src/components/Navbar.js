@@ -1,9 +1,11 @@
 import { Component } from "react";
+import { connect } from 'react-redux';
+import { changeCurrency } from '../redux/actions'
 
-
-export default class Navbar extends Component {
+class Navbar extends Component {
     constructor(props) {
         super(props)
+        console.log(props);
         this.queryCurrency = `
                         {
                             currencies {
@@ -13,10 +15,10 @@ export default class Navbar extends Component {
                         }
                         `
         this.state = {
-            currency: 'USD',
+            // currency: 'USD',
             currencies: []
         }
-        this.handleChange = this.handleChange.bind(this)
+        // this.handleChange = this.handleChange.bind(this)
 
     }
     async componentDidMount() {
@@ -35,9 +37,9 @@ export default class Navbar extends Component {
 
     }
 
-    handleChange(event) {
-        this.setState({ currency: event.target.value })
-    }
+    // handleChange(event) {
+    //     this.setState({ currency: event.target.value })
+    // }
 
     render() {
         const { currencies } = this.state;
@@ -50,7 +52,7 @@ export default class Navbar extends Component {
                 </div>
                 <img className="navigation__logo" src="/a-logo.svg" />
                 <div className="navigation__actions">
-                    <select name="currency" className='navigation__actions_currency' value={this.state.currency} onChange={this.handleChange}>
+                    <select name="currency" className='navigation__actions_currency' value={this.state.currency} onChange={e => this.props.onSelect(e.target.value)}>
                         {currencies &&
                             currencies.map((currency, index) => (
                                 <option key={index} value={currency.label} > {currency.symbol}</option>
@@ -62,3 +64,12 @@ export default class Navbar extends Component {
             </div>);
     }
 }
+const mapStateToProps = state => ({
+    currency: state.currency
+});
+
+const mapDispatchToProps = dispatch => ({
+    onSelect: currency => dispatch(changeCurrency(currency)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

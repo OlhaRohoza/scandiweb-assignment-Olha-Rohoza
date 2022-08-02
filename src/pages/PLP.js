@@ -1,10 +1,11 @@
 import { Component } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import WithRouter from "../components/WithRouter";
 
 class PLP extends Component {
     constructor(props) {
         super(props)
-        // console.log(props);
+        console.log(props.currency);
         this.queryCategories = `
                     {
                             category (input: {
@@ -70,8 +71,10 @@ class PLP extends Component {
 
     }
 }
-export default function PLPf(props) {
-    let navigate = useNavigate();
-    return <PLP {...props} navigate={navigate} />
-}
+// export default function PLPf(props) {
+//     let navigate = useNavigate();
+//     return <PLP {...props} navigate={navigate} />
+// }
+
+export default WithRouter(PLP);
 
