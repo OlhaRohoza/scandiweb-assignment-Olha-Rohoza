@@ -1,13 +1,16 @@
 import React from "react";
 import { Component } from "react";
-import withRouter from '../components/WithRouter';
+import WithRouter from '../components/WithRouter';
+import { connect } from 'react-redux';
+import { addToCart } from '../redux/actions';
+
 
 class PDP extends Component {
     constructor(props) {
         super(props)
-        console.log(props.params);
+        // console.log(props.params);
         this.state = {
-            currency: 'USD',
+            // currency: 'USD',
             product: [],
             gallery: [],
             attributes: [],
@@ -42,7 +45,6 @@ class PDP extends Component {
 
                                 }                              
                                 }`
-        this.handleChange = this.handleChange.bind(this)
     }
 
     async componentDidMount() {
@@ -63,12 +65,10 @@ class PDP extends Component {
         }
     }
 
-    handleChange(e) {
-        console.log(e.target.value);
-    }
 
     render() {
         const { product, gallery, attributes, prices } = this.state;
+        const { currency } = this.props;
 
         return (
             <div className="PDP__container">
@@ -126,13 +126,18 @@ class PDP extends Component {
                             ? <p>SOLD OUT</p>
                             :
                             <>
-                                <p className="PDP__product_attribute-price">PRICE {this.state.currency}</p>
+                                <p className="PDP__product_attribute-price"> {currency}
+                                    {prices.filter((price) => (price.currency.symbol === currency))[0].amount}
+                                </p>
+                                {console.log(prices)}
                                 {/* <p>{prices && prices.filter((price) => (price.currency.label === this.state.currency)).amount} {this.state.currency}<p> */}
-                                <button className="PDP__product_add-to-cart">ADD TO CART</button>
+                                <button className="PDP__product_add-to-cart"
+                                    onClick={() => this.props.onPressAdd(product)}>ADD TO CART</button>
                             </>
                         }
                     </div>
-
+                    {console.log(this.props)}
+                    <br />
                     <div
                         dangerouslySetInnerHTML={{ __html: product.description }}
                     />
@@ -142,4 +147,17 @@ class PDP extends Component {
     }
 }
 
-export default withRouter(PDP);
+const mapStateToProps = state => ({
+    currency: state.shopping.currency,
+    noOfItemInCart: state.shopping.noOfItemInCart,
+    cart: state.shopping.cart
+});
+
+
+const mapDispatchToProps = dispatch => ({
+    onPressAdd: product => dispatch(addToCart(product)),
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(WithRouter(PDP));
+

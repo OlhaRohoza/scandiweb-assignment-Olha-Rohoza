@@ -255,3 +255,36 @@
   letter-spacing: 0em;
   text-align: left;
 }
+
+.navigation__cart {
+  display: flex;
+}
+
+.navigation__cart_items {
+  position: absolute;
+  left: 99%;
+  bottom: 20%;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  text-align: center;
+  background-color: black;
+  color: #FFFFFF;
+
+}
+
+.PLP__button {
+  position: relative;
+  bottom: 10%;
+  left: 70%;
+  opacity: 0;
+}
+
+.PLP__card:hover .PLP__button {
+  opacity: 1;
+}

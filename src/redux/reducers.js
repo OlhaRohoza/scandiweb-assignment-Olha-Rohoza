@@ -1,29 +1,17 @@
 import { combineReducers } from 'redux';
 
 const initialState = {
-    currency: '$',
-    inCart: {
-        noOfItemInCart: 0,
-        cart: []
-    }
+    currency: "$",
+    noOfItemInCart: 0,
+    cart: []
 }
 
-
-export const currency = (state = initialState, action) => {
+export const shopping = (state = initialState, action) => {
     const { type, payload } = action;
     switch (type) {
         case 'CHANGE_CURRENCY':
             const { currency } = payload;
             return { ...state, currency: currency };
-        default:
-            return state;
-    }
-
-}
-
-export const inCart = (state = initialState, action) => {
-    const { type, payload } = action;
-    switch (type) {
         case 'ADD_TO_CART':
             return {
                 ...state,
@@ -39,12 +27,11 @@ export const inCart = (state = initialState, action) => {
         default:
             return state;
     }
+
 }
 
-
 const reducers = {
-    currency,
-    inCart
+    shopping
 }
 
 export const rootReducer = combineReducers(reducers);

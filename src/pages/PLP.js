@@ -1,6 +1,8 @@
 import { Component } from "react";
 import WithRouter from "../components/WithRouter";
 import { connect } from 'react-redux';
+import { addToCart } from '../redux/actions';
+
 
 class PLP extends Component {
     constructor(props) {
@@ -19,7 +21,7 @@ class PLP extends Component {
                                     inStock
                             prices {
                             currency {
-                                            label
+                                            symbol
                                         }
                                         amount
                                     }
@@ -51,7 +53,6 @@ class PLP extends Component {
     render() {
         const { category } = this.state;
         const { navigate, currency } = this.props;
-        console.log(currency);
 
         return (
             <div className="PLP__container">
@@ -62,9 +63,12 @@ class PLP extends Component {
                             <img src={item.gallery[0]} style={!item.inStock
                                 ? { width: 350, height: 330, objectFit: 'contain', opacity: 0.5, backgroundColor: '#FFFFFF' }
                                 : { width: 350, height: 330, objectFit: 'contain' }} />
+
+                            <img src="/Common.png" className="PLP__button" onClick={() => this.props.onPressAdd(item)} />
+
                             <p>{item.name}</p>
-                            <p><strong>{currency.currency}
-                                {/* {item.prices.filter((price) => (price.currency.label == currency.currency))[0].amount} */}
+                            <p><strong>{currency}
+                                {item.prices.filter((price) => (price.currency.symbol === currency))[0].amount}
                             </strong></p>
                             <p>{!item.inStock ? "SOLD OUT" : ''}</p>
                         </div>
@@ -78,9 +82,16 @@ class PLP extends Component {
 }
 
 const mapStateToProps = state => ({
-    currency: state.currency
+    currency: state.shopping.currency,
+    noOfItemInCart: state.shopping.noOfItemInCart,
+    cart: state.shopping.cart
 });
 
-export default connect(mapStateToProps, null)(WithRouter(PLP));
+const mapDispatchToProps = dispatch => ({
+    onPressAdd: product => dispatch(addToCart(product)),
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(WithRouter(PLP));
 
 
