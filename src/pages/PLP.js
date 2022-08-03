@@ -1,11 +1,10 @@
 import { Component } from "react";
-// import { useNavigate } from "react-router-dom";
 import WithRouter from "../components/WithRouter";
+import { connect } from 'react-redux';
 
 class PLP extends Component {
     constructor(props) {
         super(props)
-        console.log(props.currency);
         this.queryCategories = `
                     {
                             category (input: {
@@ -30,7 +29,7 @@ class PLP extends Component {
                         }`
         this.state = {
             category: [],
-            currency: 'USD'
+            // currency: 'USD'
         }
     }
 
@@ -51,7 +50,8 @@ class PLP extends Component {
 
     render() {
         const { category } = this.state;
-        const { navigate } = this.props;
+        const { navigate, currency } = this.props;
+        console.log(currency);
 
         return (
             <div className="PLP__container">
@@ -63,20 +63,24 @@ class PLP extends Component {
                                 ? { width: 350, height: 330, objectFit: 'contain', opacity: 0.5, backgroundColor: '#FFFFFF' }
                                 : { width: 350, height: 330, objectFit: 'contain' }} />
                             <p>{item.name}</p>
-                            <p><strong>{item.prices.filter((price) => (price.currency.label == this.state.currency))[0].amount} {this.state.currency}</strong></p>
+                            <p><strong>{currency.currency}
+                                {/* {item.prices.filter((price) => (price.currency.label == currency.currency))[0].amount} */}
+                            </strong></p>
                             <p>{!item.inStock ? "SOLD OUT" : ''}</p>
                         </div>
-                    ))}
+                    ))
+                    }
                 </div>
-            </div>)
+            </div >)
         // }
 
     }
 }
-// export default function PLPf(props) {
-//     let navigate = useNavigate();
-//     return <PLP {...props} navigate={navigate} />
-// }
 
-export default WithRouter(PLP);
+const mapStateToProps = state => ({
+    currency: state.currency
+});
+
+export default connect(mapStateToProps, null)(WithRouter(PLP));
+
 

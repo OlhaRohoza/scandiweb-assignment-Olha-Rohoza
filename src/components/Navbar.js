@@ -5,7 +5,6 @@ import { changeCurrency } from '../redux/actions'
 class Navbar extends Component {
     constructor(props) {
         super(props)
-        console.log(props);
         this.queryCurrency = `
                         {
                             currencies {
@@ -43,6 +42,10 @@ class Navbar extends Component {
 
     render() {
         const { currencies } = this.state;
+        const { currency, cart } = this.props;
+        console.log('here')
+        console.log(this.props);
+
         return (
             <div className="navigation">
                 <div className="navigation__header">
@@ -50,22 +53,30 @@ class Navbar extends Component {
                     <a className="navigation__header_elemet" href="/tech">tech</a>
                     <a className="navigation__header_elemet" href="/clothes">clothes</a>
                 </div>
+
                 <img className="navigation__logo" src="/a-logo.svg" />
+
                 <div className="navigation__actions">
-                    <select name="currency" className='navigation__actions_currency' value={this.state.currency} onChange={e => this.props.onSelect(e.target.value)}>
+                    <select name="currency" className='navigation__actions_currency'
+                        value={currency.currency} onChange={e => this.props.onSelect(e.target.value)}>
                         {currencies &&
                             currencies.map((currency, index) => (
-                                <option key={index} value={currency.label} > {currency.symbol}</option>
+                                <option key={index} value={currency.symbol} > {currency.symbol}</option>
                             ))
                         }
                     </select>
-                    <img className="navigation__actions--cart" src="/Vector.svg" />
+
+                    <div className="navigation__cart">
+                        <img className="navigation__actions--cart" src="/Vector.svg" />
+                        {/* {inCart.noOfItemInCart > 0 ? <p>{inCart.noOfItemInCart} </p> : <p>''</p>} */}
+                    </div>
                 </div>
-            </div>);
+            </div >);
     }
 }
 const mapStateToProps = state => ({
-    currency: state.currency
+    currency: state.currency,
+    cart: state.cart
 });
 
 const mapDispatchToProps = dispatch => ({
