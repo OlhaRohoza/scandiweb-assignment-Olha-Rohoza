@@ -13,6 +13,7 @@ class PDP extends Component {
             // currency: 'USD',
             product: [],
             gallery: [],
+            mainPicture: '',
             attributes: [],
             prices: []
         }
@@ -45,6 +46,7 @@ class PDP extends Component {
 
                                 }                              
                                 }`
+        this.handleChange = this.handleChange.bind(this);
     }
 
     async componentDidMount() {
@@ -65,6 +67,12 @@ class PDP extends Component {
         }
     }
 
+    handleChange(i) {
+        this.setState({
+            mainPicture: this.state.gallery[i]
+        })
+    }
+
 
     render() {
         const { product, gallery, attributes, prices } = this.state;
@@ -75,14 +83,18 @@ class PDP extends Component {
                 <div className="PDP__pictures_small">
                     {
                         gallery && gallery.map((picture, i) => (
-                            <img key={i} src={picture} style={{ height: 79, width: 80, backgroundColor: 'white', objectFit: 'contain' }} />
+                            <img key={i} src={picture} alt='item' style={{ height: 79, width: 80, backgroundColor: 'white', objectFit: 'contain' }}
+                                onClick={e => this.handleChange(i)} />
                             // <img src={link} key={i} />
                         ))
                     }
                 </div>
-                <img src={gallery[0]} style={{
-                    marginLeft: 25, height: 510, width: 610, backgroundColor: '#white', objectFit: 'contain'
-                }} />
+                {this.state.mainPicture !== ''
+                    ? <img src={this.state.mainPicture} alt='item'
+                        style={{ marginLeft: 25, height: 510, width: 610, backgroundColor: '#white', objectFit: 'contain' }} />
+                    : <img src={gallery[0]} alt='item'
+                        style={{ marginLeft: 25, height: 510, width: 610, backgroundColor: '#white', objectFit: 'contain' }} />
+                }
                 <div className="PDP__product_details">
                     <p className="PDP__product_brand">{product.brand}</p>
                     <p className="PDP__product_name">{product.name}</p>

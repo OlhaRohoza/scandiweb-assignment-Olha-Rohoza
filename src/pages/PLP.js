@@ -16,6 +16,7 @@ class PLP extends Component {
                         products {
                                     id
                                     name
+                                    brand
                                     category
                                     gallery
                                     inStock
@@ -56,28 +57,29 @@ class PLP extends Component {
 
         return (
             <div className="PLP__container">
-                <h2>Category name</h2>
+                <p className="PLP__container_name">Category name</p>
                 <div className="PLP__cards">
+
                     {category && category.slice(0, 6).map((item) => (
                         <div className="PLP__card" key={item.id} onClick={() => navigate(`/PDP/${item.id}`)}>
-                            <img src={item.gallery[0]} style={!item.inStock
-                                ? { width: 350, height: 330, objectFit: 'contain', opacity: 0.5, backgroundColor: '#FFFFFF' }
-                                : { width: 350, height: 330, objectFit: 'contain' }} />
-
-                            <img src="/Common.png" className="PLP__button" onClick={() => this.props.onPressAdd(item)} />
-
-                            <p>{item.name}</p>
-                            <p><strong>{currency}
-                                {item.prices.filter((price) => (price.currency.symbol === currency))[0].amount}
-                            </strong></p>
-                            <p>{!item.inStock ? "SOLD OUT" : ''}</p>
+                            <div className="PLP__cards_picture">
+                                <img src={item.gallery[0]} alt='item' style={!item.inStock
+                                    ? { width: 350, height: 330, objectFit: 'contain', opacity: 0.5, backgroundColor: '#FFFFFF' }
+                                    : { width: 350, height: 330, objectFit: 'contain' }} />
+                                <img src="/Common.png" alt='cart' className="PLP__button"
+                                // onClick={() => this.props.onPressAdd(item)} 
+                                />
+                                {!item.inStock ? <p className="PLP_cards_stock">OUT OF STOCK</p> : ''}
+                            </div>
+                            <div className="PLP__cards_description">
+                                <p>{item.brand} {item.name}</p>
+                                <p><strong>{currency}
+                                    {item.prices.filter((price) => (price.currency.symbol === currency))[0].amount} </strong></p>
+                            </div>
                         </div>
-                    ))
-                    }
+                    ))}
                 </div>
             </div >)
-        // }
-
     }
 }
 

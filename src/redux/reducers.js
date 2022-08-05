@@ -31,7 +31,7 @@ export const shopping = (state = initialState, action) => {
 }
 
 const reducers = {
-    shopping
+    shopping: shopping
 }
 
 export const rootReducer = combineReducers(reducers);
