@@ -4,6 +4,7 @@
 
 .navigation {
   /* Surface */
+  margin: 0 auto;
   height: 80px;
   width: 1440px;
   left: 0px;
@@ -131,23 +132,13 @@
 }
 
 .PLP__card {
-  /* Product Card / Elements / Desktop */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin: 16px;
-
   width: 386px;
   height: 444px;
-  /* padding-left: 40px; */
-
-  /* --c-white */
   background: #FFFFFF;
-
-  /* Inside auto layout */
-  flex: none;
-  order: 0;
-  flex-grow: 0;
 }
 
 .PLP__cards_picture {
@@ -157,7 +148,12 @@
 
 }
 
-.PLP_cards_stock {
+.PLP__card_description {
+  padding: 16px;
+  width: 100%;
+}
+
+.PLP_card_stock {
   font-family: Raleway;
   font-size: 24px;
   font-weight: 400;
@@ -165,7 +161,7 @@
   letter-spacing: 0px;
   text-align: center;
   position: relative;
-  bottom: 55%;
+  bottom: 125%;
 }
 
 .PDP__container {
@@ -181,8 +177,7 @@
 
 .PLP__card img {
   max-width: 100%;
-  height: auto;
-
+  padding: 16px;
 }
 
 .PDP__pictures_small {
@@ -278,16 +273,17 @@
   text-align: center;
   background-color: black;
   color: #FFFFFF;
+  z-index: 5;
 
 }
 
-.PLP__button {
+.PLP__card_button {
   position: relative;
-  bottom: 10%;
-  left: 35%;
+  bottom: 100%;
+  left: 75%;
   opacity: 0;
 }
 
-.PLP__card:hover .PLP__button {
+.PLP__card:hover .PLP__card_button {
   opacity: 1;
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { Component } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import './App.css';
 import Navbar from './components/Navbar';
 import PLP from "./pages/PLP";
@@ -13,7 +13,7 @@ class App extends Component {
     return (
       <Router>
         <Navbar />
-        <Routes>
+        <Routes >
           <Route exact path="/" element={<PLP select={'all'} />} />
           <Route exact path="/tech" element={<PLP select={'tech'} />} />
           <Route exact path="/clothes" element={<PLP select={'clothes'} />} />

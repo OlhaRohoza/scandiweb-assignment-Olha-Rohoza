@@ -1,6 +1,8 @@
 import { Component } from "react";
 import { connect } from 'react-redux';
-import { changeCurrency } from '../redux/actions'
+import { Link } from "react-router-dom";
+import { changeCurrency } from '../redux/actions';
+import WithRouter from "./WithRouter";
 
 class Navbar extends Component {
     constructor(props) {
@@ -13,11 +15,10 @@ class Navbar extends Component {
                             }
                         }
                         `
+        this.elements = ['all', 'tech', 'clothes']
         this.state = {
-            // currency: 'USD',
-            currencies: []
+            currencies: [],
         }
-        // this.handleChange = this.handleChange.bind(this)
 
     }
     async componentDidMount() {
@@ -36,23 +37,34 @@ class Navbar extends Component {
 
     }
 
-    // handleChange(event) {
-    //     this.setState({ currency: event.target.value })
-    // }
-
     render() {
         const { currencies } = this.state;
         const { currency, noOfItemInCart } = this.props;
+        const { pathname } = this.props.location;
+        console.log(pathname)
+
+        let classNameInActive = 'navigation__header_elemet';
+        let classNameActive = 'navigation__header_elemet navigation__header_elemet--selected';
 
         // console.log('navigation-bar')
-        // console.log(this.props);
+        console.log(this.props);
 
         return (
             <div className="navigation">
                 <div className="navigation__header">
-                    <a className="navigation__header_elemet navigation__header_elemet--selected" href="/">all</a>
-                    <a className="navigation__header_elemet" href="/tech">tech</a>
-                    <a className="navigation__header_elemet" href="/clothes">clothes</a>
+                    {
+                        this.elements.map((element, i) => (
+                            <a href={element !== 'all' ? `/${element}` : '/'}
+                                className={pathname === '/' && element === 'all' ? classNameActive
+                                    : pathname === ('/' + element) ? classNameActive : classNameInActive}
+                                key={i} onClick={() => console.log(i)} >{element}</a>
+
+                            // <Link to={element !== 'all' ? `/${element}` : '/'}
+                            //     className={element === navState ? classNameActive : classNameInActive}
+                            //     key={i} onClick={() => this.props.changeActiveLink(element)} > {element}</Link>
+                        ))
+                    }
+
                 </div>
 
                 <img className="navigation__logo" src="/a-logo.svg" />
@@ -82,7 +94,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onSelect: currency => dispatch(changeCurrency(currency)),
+    onSelect: currency => dispatch(changeCurrency(currency))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default connect(mapStateToProps, mapDispatchToProps)(WithRouter(Navbar));

@@ -54,10 +54,11 @@ class PLP extends Component {
     render() {
         const { category } = this.state;
         const { navigate, currency } = this.props;
+        // console.log(this.props);
 
         return (
             <div className="PLP__container">
-                <p className="PLP__container_name">Category name</p>
+                <p className="PLP__container_name">Category "{this.props.select}"</p>
                 <div className="PLP__cards">
 
                     {category && category.slice(0, 6).map((item) => (
@@ -66,16 +67,18 @@ class PLP extends Component {
                                 <img src={item.gallery[0]} alt='item' style={!item.inStock
                                     ? { width: 350, height: 330, objectFit: 'contain', opacity: 0.5, backgroundColor: '#FFFFFF' }
                                     : { width: 350, height: 330, objectFit: 'contain' }} />
-                                <img src="/Common.png" alt='cart' className="PLP__button"
-                                // onClick={() => this.props.onPressAdd(item)} 
-                                />
-                                {!item.inStock ? <p className="PLP_cards_stock">OUT OF STOCK</p> : ''}
                             </div>
-                            <div className="PLP__cards_description">
-                                <p>{item.brand} {item.name}</p>
-                                <p><strong>{currency}
-                                    {item.prices.filter((price) => (price.currency.symbol === currency))[0].amount} </strong></p>
-                            </div>
+                            <>
+                                <div className="PLP__card_description">
+                                    <p>{item.brand} {item.name}</p>
+                                    <p><strong>{currency}
+                                        {item.prices.filter((price) => (price.currency.symbol === currency))[0].amount} </strong></p>
+                                    <p className="PLP_card_stock">{!item.inStock ? "OUT OF STOCK" : ''}</p>
+                                    <img src="/Common.png" alt='cart' className="PLP__card_button"
+                                    // onClick={() => this.props.onPressAdd(item)} 
+                                    />
+                                </div>
+                            </>
                         </div>
                     ))}
                 </div>
@@ -86,7 +89,8 @@ class PLP extends Component {
 const mapStateToProps = state => ({
     currency: state.shopping.currency,
     noOfItemInCart: state.shopping.noOfItemInCart,
-    cart: state.shopping.cart
+    cart: state.shopping.cart,
+
 });
 
 const mapDispatchToProps = dispatch => ({
