@@ -76,14 +76,12 @@
 }
 
 .navigation__actions {
-  /* Actions */
-  /* Auto layout */
-
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
   padding: 0px;
+  padding-right: 101px;
   gap: 22px;
 
   position: absolute;
@@ -165,8 +163,7 @@
 }
 
 .PDP__container {
-  margin-top: 160px;
-  margin-left: 101px;
+  margin: 160px 101px;
   display: flex;
 }
 
@@ -260,7 +257,7 @@
 
 .navigation__cart_items {
   position: absolute;
-  left: 99%;
+  left: 49%;
   bottom: 20%;
   font-family: 'Roboto';
   font-style: normal;
@@ -286,4 +283,10 @@
 
 .PLP__card:hover .PLP__card_button {
   opacity: 1;
+}
+
+.PDP__product_stock {
+  font-family: Raleway;
+  font-size: 24px;
+  font-weight: 400;
 }

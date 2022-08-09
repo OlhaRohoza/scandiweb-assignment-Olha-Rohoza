@@ -13,12 +13,27 @@ export const shopping = (state = initialState, action) => {
             const { currency } = payload;
             return { ...state, currency: currency };
         case 'ADD_TO_CART':
+            const { id, selectedAttributes } = payload;
+            const inCart = state.cart.find((item) => (item.id == id) ? true : false);
+            console.log(inCart);
             return {
                 ...state,
                 noOfItemInCart: state.noOfItemInCart + 1,
-                cart: [...state.cart, payload]
-            }
+                cart: inCart
+                    ? state.cart.map((item) =>
+                        item.id == id
+                            ? {
+                                ...item,
+                                quality: item.quality + 1
+                            }
+                            : item)
+                    : [...state.cart, {
+                        ...payload,
+                        quality: 1
+                    }],
+            };
         case 'DELETE_FROM_CART':
+
             return {
                 ...state,
                 noOfItemInCart: state.noOfItemInCart - 1,

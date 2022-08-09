@@ -20,6 +20,13 @@ class PLP extends Component {
                                     category
                                     gallery
                                     inStock
+                            attributes{
+                                id
+                                name
+                                items {
+                                value
+                                }
+                            }
                             prices {
                             currency {
                                             symbol
@@ -74,9 +81,22 @@ class PLP extends Component {
                                     <p><strong>{currency}
                                         {item.prices.filter((price) => (price.currency.symbol === currency))[0].amount} </strong></p>
                                     <p className="PLP_card_stock">{!item.inStock ? "OUT OF STOCK" : ''}</p>
-                                    <img src="/Common.png" alt='cart' className="PLP__card_button"
-                                    // onClick={() => this.props.onPressAdd(item)} 
-                                    />
+                                    {
+                                        item.inStock &&
+                                        <img src="/Common.png" alt='cart' className="PLP__card_button"
+                                            onClick={() => this.props.addToCart(category.attributes.length === 0
+                                                ? {
+                                                    // id: product.id,
+                                                    // name: product.name,
+                                                    // brand: product.brand,
+                                                    // gallery: gallery,
+                                                    // prices: prices,
+                                                    // quality: 1,
+                                                    // selectedAttributes: []
+                                                }
+                                                : '')}
+                                        />
+                                    }
                                 </div>
                             </>
                         </div>
@@ -94,7 +114,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onPressAdd: product => dispatch(addToCart(product)),
+    addToCart: product => dispatch(addToCart(product)),
 });
 
 

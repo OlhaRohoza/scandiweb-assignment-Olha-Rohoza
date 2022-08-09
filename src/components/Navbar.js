@@ -19,8 +19,8 @@ class Navbar extends Component {
         this.state = {
             currencies: [],
         }
-
     }
+
     async componentDidMount() {
         try {
             const response = await fetch('http://localhost:4000/', {
@@ -34,37 +34,31 @@ class Navbar extends Component {
         } catch (err) {
             console.log(err);
         }
-
     }
 
     render() {
         const { currencies } = this.state;
         const { currency, noOfItemInCart } = this.props;
         const { pathname } = this.props.location;
-        console.log(pathname)
+        // console.log(this.props);
+        // console.log(pathname)
 
         let classNameInActive = 'navigation__header_elemet';
         let classNameActive = 'navigation__header_elemet navigation__header_elemet--selected';
 
-        // console.log('navigation-bar')
-        console.log(this.props);
 
         return (
             <div className="navigation">
+
                 <div className="navigation__header">
                     {
                         this.elements.map((element, i) => (
-                            <a href={element !== 'all' ? `/${element}` : '/'}
+                            <a key={i} href={element !== 'all' ? `/${element}` : '/'}
                                 className={pathname === '/' && element === 'all' ? classNameActive
                                     : pathname === ('/' + element) ? classNameActive : classNameInActive}
-                                key={i} onClick={() => console.log(i)} >{element}</a>
-
-                            // <Link to={element !== 'all' ? `/${element}` : '/'}
-                            //     className={element === navState ? classNameActive : classNameInActive}
-                            //     key={i} onClick={() => this.props.changeActiveLink(element)} > {element}</Link>
+                            >{element}</a>
                         ))
                     }
-
                 </div>
 
                 <img className="navigation__logo" src="/a-logo.svg" />
@@ -84,6 +78,7 @@ class Navbar extends Component {
                         {noOfItemInCart > 0 ? <p className="navigation__cart_items">{noOfItemInCart} </p> : <p></p>}
                     </div>
                 </div>
+
             </div >);
     }
 }

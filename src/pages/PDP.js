@@ -3,19 +3,19 @@ import { Component } from "react";
 import WithRouter from '../components/WithRouter';
 import { connect } from 'react-redux';
 import { addToCart } from '../redux/actions';
+import PDPpictures from "../components/PDPpictures";
+import PDPattributes from "../components/PDPattributes";
 
 
 class PDP extends Component {
     constructor(props) {
         super(props)
-        // console.log(props.params);
         this.state = {
-            // currency: 'USD',
             product: [],
             gallery: [],
-            mainPicture: '',
             attributes: [],
-            prices: []
+            prices: [],
+            selectedAttributes: {}
         }
 
         this.queryProduct = `{
@@ -58,46 +58,58 @@ class PDP extends Component {
             })
             const data = await response.json();
             console.log(data.data.product);
+
             this.setState({ product: data.data.product });
             this.setState({ gallery: data.data.product.gallery });
             this.setState({ attributes: data.data.product.attributes });
+            console.log('attributes length ', data.data.product.attributes.length);
             this.setState({ prices: data.data.product.prices });
+            if (data.data.product.attributes.length == 1) {
+                this.setState({ selectedAttributes: { name: data.data.product.attributes[0].name, value: data.data.product.attributes[0].items[0].value } })
+            } else {
+                let array = [];
+                for (let i = 0; i < data.data.product.attributes.length; i++) {
+                    array.push({ name: data.data.product.attributes[i].name, value: data.data.product.attributes[i].items[0].value });
+                }
+                this.setState({ selectedAttributes: array })
+            }
+
         } catch (err) {
             console.log(err);
         }
     }
 
-    handleChange(i) {
-        this.setState({
-            mainPicture: this.state.gallery[i]
-        })
+    componentDidUpdate() {
+        window.scrollTo(0, 0);
     }
 
+    handleChange(itemName, itemValue) {
+        const newState = this.state.selectedAttributes.map(obj => {
+            if (obj.name === itemName) {
+                return { ...obj, value: itemValue };
+            }
+            return obj;
+        });
+
+        this.setState({ ...this.state, selectedAttributes: newState });
+    }
 
     render() {
-        const { product, gallery, attributes, prices } = this.state;
-        const { currency } = this.props;
+        const { product, gallery, attributes, prices, selectedAttributes } = this.state;
+        const { currency, addToCart } = this.props;
+
+        console.log('selectedAttributes', this.state.selectedAttributes);
+
+        const styleSquare = { height: 54, width: 64, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: '#FFFFFF', color: 'black' };
+        const styleSelectedSquare = { height: 54, width: 64, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: 'black', color: '#FFFFFF' }
 
         return (
             <div className="PDP__container">
-                <div className="PDP__pictures_small">
-                    {
-                        gallery && gallery.map((picture, i) => (
-                            <img key={i} src={picture} alt='item' style={{ height: 79, width: 80, backgroundColor: 'white', objectFit: 'contain' }}
-                                onClick={e => this.handleChange(i)} />
-                            // <img src={link} key={i} />
-                        ))
-                    }
-                </div>
-                {this.state.mainPicture !== ''
-                    ? <img src={this.state.mainPicture} alt='item'
-                        style={{ marginLeft: 25, height: 510, width: 610, backgroundColor: '#white', objectFit: 'contain' }} />
-                    : <img src={gallery[0]} alt='item'
-                        style={{ marginLeft: 25, height: 510, width: 610, backgroundColor: '#white', objectFit: 'contain' }} />
-                }
+                <PDPpictures gallery={gallery} />
                 <div className="PDP__product_details">
                     <p className="PDP__product_brand">{product.brand}</p>
                     <p className="PDP__product_name">{product.name}</p>
+                    {/* <PDPattributes attributes={attributes} /> */}
                     {
                         attributes && attributes.map(element => (
                             <div className="attributes" key={element.id}>
@@ -109,7 +121,10 @@ class PDP extends Component {
                                                 {
                                                     element.items.map(item => (
                                                         <div className="PDP__product_attribute-item" key={item.id}
-                                                            style={{ height: 32, width: 32, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: item.value }}>
+                                                            style={(element.name === selectedAttributes.name && item.value === selectedAttributes.value)
+                                                                ? { height: 32, width: 32, border: '1px solid #5ECE7B', textAlign: 'center', backgroundColor: item.value }
+                                                                : { height: 32, width: 32, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: item.value }
+                                                            }>
                                                         </div>
                                                     ))
                                                 }
@@ -121,7 +136,9 @@ class PDP extends Component {
                                                 {
                                                     element.items.map(item => (
                                                         <div className="PDP__product_attribute-item" key={item.id}
-                                                            style={{ height: 54, width: 64, border: '1px solid #1D1F22', textAlign: 'center' }}>
+                                                            onClick={e => this.handleChange(element.name, item.value)}
+                                                            style={(element.name === selectedAttributes.name && item.value === selectedAttributes.value)
+                                                                ? styleSelectedSquare : styleSquare}>
                                                             {item.value}
                                                         </div>
                                                     ))
@@ -135,24 +152,31 @@ class PDP extends Component {
                     }
                     <div>
                         {!product.inStock
-                            ? <p>SOLD OUT</p>
+                            ? <p className="PDP__product_stock">SOLD OUT</p>
                             :
                             <>
                                 <p className="PDP__product_attribute-price"> {currency}
+                                    {/* {console.log(prices)} */}
                                     {prices.filter((price) => (price.currency.symbol === currency))[0].amount}
                                 </p>
-                                {console.log(prices)}
-                                {/* <p>{prices && prices.filter((price) => (price.currency.label === this.state.currency)).amount} {this.state.currency}<p> */}
                                 <button className="PDP__product_add-to-cart"
-                                    onClick={() => this.props.onPressAdd(product)}>ADD TO CART</button>
+                                    onClick={() => addToCart({
+                                        id: product.id,
+                                        name: product.name,
+                                        brand: product.brand,
+                                        gallery: gallery[0],
+                                        prices: prices,
+                                        selectedAttributes: selectedAttributes
+                                    })}>ADD TO CART</button>
                             </>
                         }
+                        {console.log(this.props)}
                     </div>
-                    {console.log(this.props)}
                     <br />
                     <div
                         dangerouslySetInnerHTML={{ __html: product.description }}
                     />
+                    {console.log(product.description)}
                 </div>
 
             </div>)
@@ -165,9 +189,8 @@ const mapStateToProps = state => ({
     cart: state.shopping.cart
 });
 
-
 const mapDispatchToProps = dispatch => ({
-    onPressAdd: product => dispatch(addToCart(product)),
+    addToCart: (product) => dispatch(addToCart(product)),
 });
 
 

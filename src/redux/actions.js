@@ -3,12 +3,22 @@ export const changeCurrency = currency => ({
     payload: { currency }
 })
 
-export const addToCart = product => ({
+export const addToCart = (product) => ({
     type: 'ADD_TO_CART',
-    payload: product
+    payload: {
+        id: product.id,
+        name: product.name,
+        brand: product.brand,
+        gallery: product.gallery,
+        prices: product.prices,
+        selectedAttributes: product.selectedAttributes
+    }
 })
 
-export const deleteFromCart = product => ({
+export const deleteFromCart = (id, selectedAttributes) => ({
     type: 'DELETE_FROM_CART',
-    payload: product
+    payload: {
+        id,
+        selectedAttributes
+    }
 })
