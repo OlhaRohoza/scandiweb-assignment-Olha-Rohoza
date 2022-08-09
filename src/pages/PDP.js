@@ -4,7 +4,6 @@ import WithRouter from '../components/WithRouter';
 import { connect } from 'react-redux';
 import { addToCart } from '../redux/actions';
 import PDPpictures from "../components/PDPpictures";
-import PDPattributes from "../components/PDPattributes";
 
 
 class PDP extends Component {
@@ -64,7 +63,7 @@ class PDP extends Component {
             this.setState({ attributes: data.data.product.attributes });
             console.log('attributes length ', data.data.product.attributes.length);
             this.setState({ prices: data.data.product.prices });
-            if (data.data.product.attributes.length == 1) {
+            if (data.data.product.attributes.length === 1) {
                 this.setState({ selectedAttributes: { name: data.data.product.attributes[0].name, value: data.data.product.attributes[0].items[0].value } })
             } else {
                 let array = [];
@@ -84,14 +83,21 @@ class PDP extends Component {
     }
 
     handleChange(itemName, itemValue) {
-        const newState = this.state.selectedAttributes.map(obj => {
-            if (obj.name === itemName) {
-                return { ...obj, value: itemValue };
-            }
-            return obj;
-        });
 
-        this.setState({ ...this.state, selectedAttributes: newState });
+        if (this.state.selectedAttributes.length >= 2) {
+
+            const newState = this.state.selectedAttributes.map(obj => {
+                if (obj.name === itemName) {
+                    return { ...obj, value: itemValue };
+                }
+                return obj;
+            });
+
+            this.setState({ ...this.state, selectedAttributes: newState });
+        } else {
+            this.setState({ ...this.state, selectedAttributes: { name: itemName, value: itemValue } })
+        }
+
     }
 
     render() {
@@ -109,7 +115,6 @@ class PDP extends Component {
                 <div className="PDP__product_details">
                     <p className="PDP__product_brand">{product.brand}</p>
                     <p className="PDP__product_name">{product.name}</p>
-                    {/* <PDPattributes attributes={attributes} /> */}
                     {
                         attributes && attributes.map(element => (
                             <div className="attributes" key={element.id}>
@@ -121,12 +126,12 @@ class PDP extends Component {
                                                 {
                                                     element.items.map(item => (
                                                         <div className="PDP__product_attribute-item" key={item.id}
+                                                            onClick={e => this.handleChange(element.name, item.value)}
                                                             style={(element.name === selectedAttributes.name && item.value === selectedAttributes.value)
                                                                 ? { height: 32, width: 32, border: '1px solid #5ECE7B', textAlign: 'center', backgroundColor: item.value }
                                                                 : { height: 32, width: 32, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: item.value }
                                                             }>
-                                                        </div>
-                                                    ))
+                                                        </div>))
                                                 }
                                             </div>
                                         </>
@@ -138,10 +143,29 @@ class PDP extends Component {
                                                         <div className="PDP__product_attribute-item" key={item.id}
                                                             onClick={e => this.handleChange(element.name, item.value)}
                                                             style={(element.name === selectedAttributes.name && item.value === selectedAttributes.value)
-                                                                ? styleSelectedSquare : styleSquare}>
-                                                            {item.value}
-                                                        </div>
+                                                                ? styleSelectedSquare : styleSquare
+                                                            }> {item.value}</div>
+
                                                     ))
+
+
+
+                                                    //     element.items.map(item => (
+                                                    // selectedAttributes.length === 1
+                                                    // ? (<div className="PDP__product_attribute-item" key={item.id}
+                                                    //     onClick={e => this.handleChange(element.name, item.value)}
+                                                    //     style={(element.name === selectedAttributes.name && item.value === selectedAttributes.value)
+                                                    //         ? styleSelectedSquare : styleSquare}>
+                                                    //     {item.value}
+                                                    // </div>)
+                                                    //             : selectedAttributes.map(obj =>
+                                                    // (<div className="PDP__product_attribute-item" key={item.id}
+                                                    //     onClick={e => this.handleChange(element.name, item.value)}
+                                                    //     style={(element.name === obj.name && item.value === obj.value)
+                                                    //         ? styleSelectedSquare : styleSquare}>
+                                                    //     {item.value}
+                                                    // </div>))
+                                                    // ))
                                                 }
                                             </div>
                                         </>
@@ -166,6 +190,7 @@ class PDP extends Component {
                                         brand: product.brand,
                                         gallery: gallery[0],
                                         prices: prices,
+                                        attributes: attributes,
                                         selectedAttributes: selectedAttributes
                                     })}>ADD TO CART</button>
                             </>

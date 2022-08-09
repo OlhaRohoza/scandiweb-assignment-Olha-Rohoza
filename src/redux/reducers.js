@@ -14,14 +14,14 @@ export const shopping = (state = initialState, action) => {
             return { ...state, currency: currency };
         case 'ADD_TO_CART':
             const { id, selectedAttributes } = payload;
-            const inCart = state.cart.find((item) => (item.id == id) ? true : false);
+            const inCart = state.cart.find((item) => (item.id === id) ? true : false);
             console.log(inCart);
             return {
                 ...state,
                 noOfItemInCart: state.noOfItemInCart + 1,
                 cart: inCart
                     ? state.cart.map((item) =>
-                        item.id == id
+                        item.selectedAttributes === selectedAttributes
                             ? {
                                 ...item,
                                 quality: item.quality + 1

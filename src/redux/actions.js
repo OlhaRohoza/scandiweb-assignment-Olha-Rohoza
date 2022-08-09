@@ -11,6 +11,7 @@ export const addToCart = (product) => ({
         brand: product.brand,
         gallery: product.gallery,
         prices: product.prices,
+        attributes: product.attributes,
         selectedAttributes: product.selectedAttributes
     }
 })
