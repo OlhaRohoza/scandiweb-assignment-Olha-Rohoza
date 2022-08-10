@@ -125,11 +125,15 @@ class PDP extends Component {
                                             <div className="PDP__product_attribute-items">
                                                 {
                                                     element.items.map(item => (
-                                                        <div className="PDP__product_attribute-item" key={item.id}
-                                                            onClick={e => this.handleChange(element.name, item.value)}
-                                                            style={(element.name === selectedAttributes.name && item.value === selectedAttributes.value)
-                                                                ? { height: 32, width: 32, border: '1px solid #5ECE7B', textAlign: 'center', backgroundColor: item.value }
-                                                                : { height: 32, width: 32, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: item.value }
+                                                        <div className="PDP__product_attribute-item"
+                                                            key={item.id}
+                                                            onClick={(e) => this.handleChange(element.name, item.value)}
+                                                            style={
+                                                                selectedAttributes.length >= 2 && selectedAttributes.find(x => x.value === item.value)
+                                                                    ? { height: 32, width: 32, border: '2px solid white', outline: '2px solid #5ECE7B', textAlign: 'center', backgroundColor: item.value }
+                                                                    : (element.name === selectedAttributes.name && item.value === selectedAttributes.value)
+                                                                        ? { height: 32, width: 32, border: '2px solid white', outline: '2px solid #5ECE7B', textAlign: 'center', backgroundColor: item.value }
+                                                                        : { height: 32, width: 32, border: 'none', textAlign: 'center', backgroundColor: item.value }
                                                             }>
                                                         </div>))
                                                 }
@@ -141,9 +145,12 @@ class PDP extends Component {
                                                 {
                                                     element.items.map(item => (
                                                         <div className="PDP__product_attribute-item" key={item.id}
-                                                            onClick={e => this.handleChange(element.name, item.value)}
-                                                            style={(element.name === selectedAttributes.name && item.value === selectedAttributes.value)
-                                                                ? styleSelectedSquare : styleSquare
+                                                            onClick={(e) => this.handleChange(element.name, item.value)}
+                                                            style={
+                                                                selectedAttributes.length >= 2 && selectedAttributes.find(x => (x.value === item.value && x.name === element.name))
+                                                                    ? styleSelectedSquare
+                                                                    : (element.name === selectedAttributes.name && item.value === selectedAttributes.value)
+                                                                        ? styleSelectedSquare : styleSquare
                                                             }> {item.value}</div>
 
                                                     ))
