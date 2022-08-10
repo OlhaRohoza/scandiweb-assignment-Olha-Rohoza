@@ -61,7 +61,7 @@ class PDP extends Component {
             this.setState({ product: data.data.product });
             this.setState({ gallery: data.data.product.gallery });
             this.setState({ attributes: data.data.product.attributes });
-            console.log('attributes length ', data.data.product.attributes.length);
+            // console.log('attributes length ', data.data.product.attributes.length);
             this.setState({ prices: data.data.product.prices });
             if (data.data.product.attributes.length === 1) {
                 this.setState({ selectedAttributes: { name: data.data.product.attributes[0].name, value: data.data.product.attributes[0].items[0].value } })
@@ -103,8 +103,6 @@ class PDP extends Component {
     render() {
         const { product, gallery, attributes, prices, selectedAttributes } = this.state;
         const { currency, addToCart } = this.props;
-
-        console.log('selectedAttributes', this.state.selectedAttributes);
 
         const styleSquare = { height: 54, width: 64, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: '#FFFFFF', color: 'black' };
         const styleSelectedSquare = { height: 54, width: 64, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: 'black', color: '#FFFFFF' }
@@ -183,7 +181,7 @@ class PDP extends Component {
                                     })}>ADD TO CART</button>
                             </>
                         }
-                        {console.log(this.props)}
+                        {console.log(this.props.cart)}
                     </div>
                     <br />
                     <div

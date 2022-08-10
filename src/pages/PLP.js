@@ -21,7 +21,6 @@ class PLP extends Component {
                                     gallery
                                     inStock
                             attributes{
-                                id
                                 name
                                 items {
                                 value
@@ -38,8 +37,7 @@ class PLP extends Component {
 
                         }`
         this.state = {
-            category: [],
-            // currency: 'USD'
+            category: []
         }
     }
 
@@ -52,6 +50,7 @@ class PLP extends Component {
             })
             const data = await response.json();
             console.log(data.data.category.products);
+
             this.setState({ category: data.data.category.products });
         } catch (err) {
             console.log(err);
@@ -60,8 +59,8 @@ class PLP extends Component {
 
     render() {
         const { category } = this.state;
-        const { navigate, currency } = this.props;
-        // console.log(this.props);
+        const { navigate, currency, addToCart } = this.props;
+
 
         return (
             <div className="PLP__container">
@@ -81,20 +80,25 @@ class PLP extends Component {
                                     <p><strong>{currency}
                                         {item.prices.filter((price) => (price.currency.symbol === currency))[0].amount} </strong></p>
                                     <p className="PLP_card_stock">{!item.inStock ? "OUT OF STOCK" : ''}</p>
+                                    {console.log(item.attributes)}
                                     {
                                         item.inStock &&
                                         <img src="/Common.png" alt='cart' className="PLP__card_button"
-                                            onClick={() => this.props.addToCart(category.attributes.length === 0
-                                                ? {
-                                                    // id: product.id,
-                                                    // name: product.name,
-                                                    // brand: product.brand,
-                                                    // gallery: gallery,
-                                                    // prices: prices,
-                                                    // quality: 1,
-                                                    // selectedAttributes: []
+                                            onClick={() => addToCart(
+                                                {
+                                                    id: item.id,
+                                                    name: item.name,
+                                                    brand: item.brand,
+                                                    gallery: item.gallery[0],
+                                                    prices: item.prices,
+                                                    attributes: item.attributes,
+                                                    selectedAttributes: item.attributes.length === 0 ? []
+                                                        : item.attributes.length === 1 ? { name: item.attributes[0].name, value: item.attributes[0].items[0].value }
+                                                            : item.attributes.map(x =>
+                                                                ({ name: x.name, value: x.items[0].value }))
                                                 }
-                                                : '')}
+
+                                            )}
                                         />
                                     }
                                 </div>
