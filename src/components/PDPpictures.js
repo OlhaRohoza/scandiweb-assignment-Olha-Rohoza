@@ -12,7 +12,7 @@ class PDPpictures extends Component {
 
     handleChange(i) {
         this.setState({
-            mainPicture: this.state.gallery[i]
+            mainPicture: this.props.gallery[i]
         })
     }
 
@@ -22,13 +22,13 @@ class PDPpictures extends Component {
         const smallPictureStyle = { height: 79, width: 80, backgroundColor: 'white', objectFit: 'contain' };
         const mainPictureStyle = { marginLeft: 25, height: 510, width: 610, backgroundColor: '#white', objectFit: 'contain' }
 
-        // console.log(gallery)
+        console.log(gallery)
 
         return (
             <>
                 <div className="PDP__pictures_small">
                     {
-                        gallery && gallery.map((picture, i) => (
+                        gallery && gallery.slice(0, 6).map((picture, i) => (
                             <img key={i} src={picture} alt='item' style={smallPictureStyle} onClick={e => this.handleChange(i)} />
                         ))
                     }

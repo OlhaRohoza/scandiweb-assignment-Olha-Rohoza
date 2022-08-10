@@ -147,25 +147,6 @@ class PDP extends Component {
                                                             }> {item.value}</div>
 
                                                     ))
-
-
-
-                                                    //     element.items.map(item => (
-                                                    // selectedAttributes.length === 1
-                                                    // ? (<div className="PDP__product_attribute-item" key={item.id}
-                                                    //     onClick={e => this.handleChange(element.name, item.value)}
-                                                    //     style={(element.name === selectedAttributes.name && item.value === selectedAttributes.value)
-                                                    //         ? styleSelectedSquare : styleSquare}>
-                                                    //     {item.value}
-                                                    // </div>)
-                                                    //             : selectedAttributes.map(obj =>
-                                                    // (<div className="PDP__product_attribute-item" key={item.id}
-                                                    //     onClick={e => this.handleChange(element.name, item.value)}
-                                                    //     style={(element.name === obj.name && item.value === obj.value)
-                                                    //         ? styleSelectedSquare : styleSquare}>
-                                                    //     {item.value}
-                                                    // </div>))
-                                                    // ))
                                                 }
                                             </div>
                                         </>
@@ -201,7 +182,6 @@ class PDP extends Component {
                     <div
                         dangerouslySetInnerHTML={{ __html: product.description }}
                     />
-                    {console.log(product.description)}
                 </div>
 
             </div>)
