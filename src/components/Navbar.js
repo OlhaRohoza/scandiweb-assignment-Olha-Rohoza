@@ -2,6 +2,7 @@ import { Component } from "react";
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import { changeCurrency } from '../redux/actions';
+import CartPreview from "./CartPreview";
 import WithRouter from "./WithRouter";
 
 class Navbar extends Component {
@@ -18,7 +19,9 @@ class Navbar extends Component {
         this.elements = ['all', 'tech', 'clothes']
         this.state = {
             currencies: [],
+            isActive: false
         }
+        this.handleClick = this.handleClick.bind(this)
     }
 
     async componentDidMount() {
@@ -34,6 +37,13 @@ class Navbar extends Component {
         } catch (err) {
             console.log(err);
         }
+    }
+
+    handleClick() {
+        this.setState(prevState => ({
+            isActive: !prevState.isActive
+        }));
+        console.log(this.state.isActive);
     }
 
     render() {
@@ -74,9 +84,10 @@ class Navbar extends Component {
                     </select>
 
                     <div className="navigation__cart">
-                        <img className="navigation__actions--cart" src="/Vector.svg" />
+                        <img className="navigation__actions--cart" src="/Vector.svg" onClick={() => this.handleClick()} />
                         {noOfItemInCart > 0 ? <p className="navigation__cart_items">{noOfItemInCart} </p> : <p></p>}
                     </div>
+                    <CartPreview isActive={this.state.isActive} />
                 </div>
 
             </div >);
