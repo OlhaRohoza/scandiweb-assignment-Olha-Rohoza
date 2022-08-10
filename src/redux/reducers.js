@@ -31,12 +31,12 @@ export const shopping = (state = initialState, action) => {
                             item.id === id
                                 ? {
                                     ...item,
-                                    quality: item.quality + 1
+                                    quantity: item.quantity + 1
                                 }
                                 : item)
                         : [...state.cart, {
                             ...payload,
-                            quality: 1
+                            quantity: 1
                         }],
                 };
             } else {
@@ -50,12 +50,12 @@ export const shopping = (state = initialState, action) => {
                             (item.id === id && (objectsEqual(item.selectedAttributes, selectedAttributes)))
                                 ? {
                                     ...item,
-                                    quality: item.quality + 1
+                                    quantity: item.quantity + 1
                                 }
                                 : item)
                         : [...state.cart, {
                             ...payload,
-                            quality: 1
+                            quantity: 1
                         }],
                 };
             }
