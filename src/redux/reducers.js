@@ -15,9 +15,11 @@ const objectsEqual = (o1, o2) =>
 export const shopping = (state = initialState, action) => {
     const { type, payload } = action;
     switch (type) {
+
         case 'CHANGE_CURRENCY':
             const { currency } = payload;
             return { ...state, currency: currency };
+
         case 'ADD_TO_CART':
             const { id, selectedAttributes } = payload;
 
@@ -40,8 +42,8 @@ export const shopping = (state = initialState, action) => {
                         }],
                 };
             } else {
-
-                const inCart = state.cart.find((item) => (item.id === id && (objectsEqual(item.selectedAttributes, selectedAttributes))) ? true : false);
+                const inCart = state.cart.find((item) =>
+                    (item.id === id && (objectsEqual(item.selectedAttributes, selectedAttributes))) ? true : false);
                 return {
                     ...state,
                     noOfItemInCart: state.noOfItemInCart + 1,
@@ -62,19 +64,53 @@ export const shopping = (state = initialState, action) => {
 
         case 'DELETE_FROM_CART':
 
-            return {
-                ...state,
-                noOfItemInCart: state.noOfItemInCart - 1,
-                inCart: state.cart.filter(product => product !== payload)
+            if (payload.quantity >= 2) {
+                if (payload.selectedAttributes === []) {
+                    return {
+                        ...state,
+                        noOfItemInCart: state.noOfItemInCart - 1,
+                        cart: state.cart.map((item) =>
+                            item.id === payload.id
+                                ? {
+                                    ...item,
+                                    quantity: item.quantity - 1
+                                }
+                                : item)
+                    };
+                } else {
+                    return {
+                        ...state,
+                        noOfItemInCart: state.noOfItemInCart - 1,
+                        cart: state.cart.map((item) =>
+                            (item.id === payload.id && (objectsEqual(item.selectedAttributes, payload.selectedAttributes)))
+                                ? {
+                                    ...item,
+                                    quantity: item.quantity - 1
+                                }
+                                : item)
+                    }
+                }
+                // when quality = 1
+            } else {
+                if (payload.selectedAttributes === []) {
+                    return {
+                        ...state,
+                        noOfItemInCart: state.noOfItemInCart - 1,
+                        cart: state.cart.filter(product => (product.id !== payload.id))
+                    }
+                } else {
+                    return {
+                        ...state,
+                        noOfItemInCart: state.noOfItemInCart - 1,
+                        cart: state.cart.filter(product => !(product.id == payload.id && objectsEqual(product.selectedAttributes, payload.selectedAttributes)))
+                    }
+                }
+
             }
+
         default:
             return state;
     }
 
 }
 
-const reducers = {
-    shopping: shopping
-}
-
-export const rootReducer = combineReducers(reducers);

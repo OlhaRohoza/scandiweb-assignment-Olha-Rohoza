@@ -1,7 +1,7 @@
 import { Component } from "react";
 import WithRouter from "./WithRouter";
 import { connect } from 'react-redux';
-import { addToCart } from '../redux/actions';
+import { addToCart, deleteFromCart } from '../redux/actions';
 
 class CartOverlay extends Component {
     constructor(props) {
@@ -11,23 +11,28 @@ class CartOverlay extends Component {
         }
     }
 
-    componentDidUpdate() {
+    componentDidMount() {
         let total = 0;
 
         this.props.cart.forEach((item) => {
-
             total += item.quantity * item.prices.filter((price) => (price.currency.symbol === this.props.currency))[0].amount;
         })
         this.setState({ total: Number(total).toFixed(2) })
-
     }
+    // componentDidUpdate() {
+    //     let total = 0;
 
+    //     this.props.cart.forEach((item) => {
+    //         total += item.quantity * item.prices.filter((price) => (price.currency.symbol === this.props.currency))[0].amount;
+    //     })
+    //     this.setState({ total: Number(total).toFixed(2) })
+    // }
 
     render() {
         console.log('cart-preview', this.props);
         console.log(this.props.cart)
 
-        const { cart, currency, noOfItemInCart } = this.props;
+        const { cart, currency, noOfItemInCart, navigate, addToCart, deleteFromCart } = this.props;
 
         return (
             <div className="smallCart__container" style={this.props.isActive ? { display: "block" } : { display: 'none' }}>
@@ -35,8 +40,8 @@ class CartOverlay extends Component {
                 <div className="smallCart__items">
 
                     {
-                        cart.map(product => (
-                            <div className="smallCart__item">
+                        cart && cart.map((product, i) => (
+                            <div className="smallCart__item" key={i}>
                                 <div className="smallCart__item_main">
                                     <p className="smallCart__item-title">{product.brand}</p>
                                     <p className="smallCart__item-title">{product.name}</p>
@@ -54,8 +59,7 @@ class CartOverlay extends Component {
                                                             <div className="smallCart__attribute-items">
                                                                 {
                                                                     element.items.map(item => (
-                                                                        <div className="smallCart__attribute-item"
-                                                                            key={item.id}
+                                                                        <div className="smallCart__attribute-item" key={item.id}
                                                                             // onClick={(e) => this.handleChange(element.name, item.value)}
                                                                             style={
                                                                                 product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => x.value === item.value)
@@ -87,23 +91,39 @@ class CartOverlay extends Component {
                                                                 }
                                                             </div>
                                                         </>
-
                                                 }
                                             </div>
-
-
                                         )
                                     }
 
                                 </div>
                                 <div className="smallCart__item_part">
-                                    <button className="smallCart__item-button">+</button>
+                                    <button className="smallCart__item-button"
+                                        onClick={() => addToCart(
+                                            {
+                                                id: product.id,
+                                                name: product.name,
+                                                brand: product.brand,
+                                                gallery: product.gallery,
+                                                prices: product.prices,
+                                                attributes: product.attributes,
+                                                selectedAttributes: product.selectedAttributes
+                                            }
+                                        )}>+</button>
                                     <p className="smallCart__item-amount">{product.quantity}</p>
-                                    <button className="smallCart__item-button">-</button>
+                                    <button className="smallCart__item-button"
+                                        onClick={() => deleteFromCart(
+                                            {
+                                                index: i,
+                                                id: product.id,
+                                                quantity: product.quantity,
+                                                selectedAttributes: product.selectedAttributes
+                                            }
+                                        )}>-</button>
                                 </div>
                                 <div className="smallCart__item_part">
                                     <img className="smallCart__item_picture"
-                                        src={product.gallery}
+                                        src={product.gallery[0]}
                                         alt={product.name}
                                         style={{ width: 120, height: 190, objectFit: 'contain' }}
                                     />
@@ -120,7 +140,9 @@ class CartOverlay extends Component {
                     <p> {currency} {this.state.total}</p>
                 </div>
                 <div className="smallCart__buttons">
-                    <button className="smallCart__button smallCart__button-bag">VIEW BAG</button>
+                    <button className="smallCart__button smallCart__button-bag"
+                        onClick={() => navigate(`/cart`)}
+                    >VIEW BAG</button>
                     <button className="smallCart__button smallCart__button-checkout">CHECK OUT</button>
                 </div>
             </div>)
@@ -137,6 +159,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     addToCart: product => dispatch(addToCart(product)),
+    deleteFromCart: product => dispatch(deleteFromCart(product)),
 });
 
 

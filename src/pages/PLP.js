@@ -68,7 +68,7 @@ class PLP extends Component {
                 <div className="PLP__cards">
 
                     {category && category.slice(0, 6).map((item) => (
-                        <div className="PLP__card" key={item.id} onClick={() => navigate(`/PDP/${item.id}`)}>
+                        <div className="PLP__card" key={item.id} >
                             <div className="PLP__cards_picture">
                                 <img src={item.gallery[0]} alt='item' style={!item.inStock
                                     ? { width: 350, height: 330, objectFit: 'contain', opacity: 0.5, backgroundColor: '#FFFFFF' }
@@ -76,11 +76,12 @@ class PLP extends Component {
                             </div>
                             <>
                                 <div className="PLP__card_description">
-                                    <p>{item.brand} {item.name}</p>
+                                    <p className="PLP__card_brand-name"
+                                        onClick={() => navigate(`/PDP/${item.id}`)} >{item.brand} {item.name}</p>
                                     <p><strong>{currency}
                                         {item.prices.filter((price) => (price.currency.symbol === currency))[0].amount} </strong></p>
                                     <p className="PLP_card_stock">{!item.inStock ? "OUT OF STOCK" : ''}</p>
-                                    {console.log(item.attributes)}
+                                    {/* {console.log(item.attributes)} */}
                                     {
                                         item.inStock &&
                                         <img src="/Common.png" alt='cart' className="PLP__card_button"
@@ -89,13 +90,13 @@ class PLP extends Component {
                                                     id: item.id,
                                                     name: item.name,
                                                     brand: item.brand,
-                                                    gallery: item.gallery[0],
+                                                    gallery: item.gallery,
                                                     prices: item.prices,
                                                     attributes: item.attributes,
                                                     selectedAttributes: item.attributes.length === 0 ? []
-                                                        : item.attributes.length === 1 ? { name: item.attributes[0].name, value: item.attributes[0].items[0].value }
-                                                            : item.attributes.map(x =>
-                                                                ({ name: x.name, value: x.items[0].value }))
+                                                        : item.attributes.length === 1
+                                                            ? { name: item.attributes[0].name, value: item.attributes[0].items[0].value }
+                                                            : item.attributes.map(x => ({ name: x.name, value: x.items[0].value }))
                                                 }
 
                                             )}

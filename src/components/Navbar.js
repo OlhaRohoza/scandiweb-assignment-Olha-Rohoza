@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { connect } from 'react-redux';
 import { changeCurrency } from '../redux/actions';
-import CartOverlay from "./CartPreview";
+import CartOverlay from "./CartOverlay";
 import WithRouter from "./WithRouter";
 
 class Navbar extends Component {
@@ -20,7 +20,8 @@ class Navbar extends Component {
             currencies: [],
             isActive: false
         }
-        this.handleClick = this.handleClick.bind(this)
+        this.handleChange = this.handleChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     async componentDidMount() {
@@ -36,6 +37,10 @@ class Navbar extends Component {
         } catch (err) {
             console.log(err);
         }
+    }
+
+    handleChange(e) {
+        this.props.onSelect(e.target.value);
     }
 
     handleClick() {
@@ -74,7 +79,7 @@ class Navbar extends Component {
 
                 <div className="navigation__actions">
                     <select className='navigation__actions_currency'
-                        value={currency} onChange={e => this.props.onSelect(e.target.value)}>
+                        value={currency} onChange={e => this.handleChange(e)}>
                         {currencies &&
                             currencies.map((valuta, index) => (
                                 <option key={index} value={valuta.symbol} > {valuta.symbol}</option>

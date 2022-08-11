@@ -101,7 +101,8 @@
   outline: 0px;
 }
 
-.PLP__container {
+.PLP__container,
+.Cart__container {
   margin-top: 160px;
   margin-left: 101px;
   display: flex;
@@ -291,6 +292,12 @@
   font-weight: 400;
 }
 
+.PLP__card_brand-name:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: blue;
+}
+
 .smallCart__container {
   z-index: 99;
 
@@ -305,6 +312,7 @@
   top: 38px;
   right: 72px;
   width: 325px;
+  height: 677px;
 
   background: #FFFFFF;
 }
@@ -416,4 +424,104 @@
 .smallCart__button-checkout {
   background: #5ECE7B;
   border: none
+}
+
+.Cart__container_name {
+  font-family: Raleway;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.Cart__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1240px;
+  border-bottom: 1px solid #E5E5E5;
+  border-top: 1px solid #E5E5E5;
+  padding: 24px;
+}
+
+.Cart__item p {
+  font-family: Raleway;
+  font-size: 30px;
+  line-height: 27px;
+  letter-spacing: 0em;
+  text-align: left;
+
+}
+
+.Cart__item-brand {
+  font-weight: 600;
+}
+
+.Cart__item-name {
+  font-weight: 400;
+}
+
+.Cart__item-price {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.Cart__attribute-name {
+  font-family: Roboto Condensed;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: center;
+}
+
+.Cart__attribute-items,
+.Cart__attribute-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.Cart__item_actions {
+  display: flex;
+}
+
+.Cart__item_part {
+  display: flex;
+  flex-direction: column;
+}
+
+.Cart__item_picture--buttons {
+  position: relative;
+  top: -20%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.Cart__item_picture--button {
+  height: 24px;
+  width: 24px;
+  background: rgba(0, 0, 0, 0.73);
+  color: white;
+  margin-right: 8px;
+}
+
+.Cart__item_buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Cart__item-button {
+  height: 45px;
+  width: 45px;
+  left: 0px;
+  top: 0px;
+  border-radius: 0px;
+  background-color: white;
+  font-size: 24px;
 }

@@ -16,10 +16,12 @@ export const addToCart = (product) => ({
     }
 })
 
-export const deleteFromCart = (id, selectedAttributes) => ({
+export const deleteFromCart = (product) => ({
     type: 'DELETE_FROM_CART',
     payload: {
-        id,
-        selectedAttributes
+        index: product.index,
+        id: product.id,
+        quantity: product.quantity,
+        selectedAttributes: product.selectedAttributes
     }
 })
