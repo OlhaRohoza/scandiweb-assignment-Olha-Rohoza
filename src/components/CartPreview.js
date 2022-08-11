@@ -3,7 +3,24 @@ import WithRouter from "./WithRouter";
 import { connect } from 'react-redux';
 import { addToCart } from '../redux/actions';
 
-class CartPreview extends Component {
+class CartOverlay extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            total: 0
+        }
+    }
+
+    componentDidUpdate() {
+        let total = 0;
+
+        this.props.cart.forEach((item) => {
+
+            total += item.quantity * item.prices.filter((price) => (price.currency.symbol === this.props.currency))[0].amount;
+        })
+        this.setState({ total: Number(total).toFixed(2) })
+
+    }
 
 
     render() {
@@ -23,9 +40,9 @@ class CartPreview extends Component {
                                 <div className="smallCart__item_main">
                                     <p className="smallCart__item-title">{product.brand}</p>
                                     <p className="smallCart__item-title">{product.name}</p>
-                                    <p className="smallCart__item-price">
+                                    <p className="smallCart__item-price"> <span>
                                         {currency} {product.quantity * product.prices.filter((price) => (price.currency.symbol === currency))[0].amount}
-                                    </p>
+                                    </span></p>
 
                                     {
                                         product.attributes.map((element, i) =>
@@ -60,10 +77,10 @@ class CartPreview extends Component {
                                                                             // onClick={(e) => this.handleChange(element.name, item.value)}
                                                                             style={
                                                                                 product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => (x.value === item.value && x.name === element.name))
-                                                                                    ? { height: 24, width: 24, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: 'black', color: '#FFFFFF' }
+                                                                                    ? { padding: "2px 4px", border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: 'black', color: '#FFFFFF' }
                                                                                     : (element.name === product.selectedAttributes.name && item.value === product.selectedAttributes.value)
-                                                                                        ? { height: 24, width: 24, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: 'black', color: '#FFFFFF' }
-                                                                                        : { height: 24, width: 24, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: '#FFFFFF', color: 'black' }
+                                                                                        ? { padding: "2px 4px", border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: 'black', color: '#FFFFFF' }
+                                                                                        : { padding: "2px 4px", border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: '#FFFFFF', color: 'black' }
                                                                             }> {item.value}</div>
 
                                                                     ))
@@ -98,13 +115,13 @@ class CartPreview extends Component {
                         ))
                     }
                 </div>
-                <div >
+                <div className="smallCart__total">
                     <p>Total</p>
-                    <p> !!! SUM</p>
+                    <p> {currency} {this.state.total}</p>
                 </div>
                 <div className="smallCart__buttons">
-                    <button>VIEW BAG</button>
-                    <button>CHECK OUT</button>
+                    <button className="smallCart__button smallCart__button-bag">VIEW BAG</button>
+                    <button className="smallCart__button smallCart__button-checkout">CHECK OUT</button>
                 </div>
             </div>)
     }
@@ -123,4 +140,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(WithRouter(CartPreview));
+export default connect(mapStateToProps, mapDispatchToProps)(WithRouter(CartOverlay));
+
+

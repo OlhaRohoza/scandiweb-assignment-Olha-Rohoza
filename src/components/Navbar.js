@@ -1,8 +1,7 @@
 import { Component } from "react";
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
 import { changeCurrency } from '../redux/actions';
-import CartPreview from "./CartPreview";
+import CartOverlay from "./CartPreview";
 import WithRouter from "./WithRouter";
 
 class Navbar extends Component {
@@ -87,7 +86,7 @@ class Navbar extends Component {
                         <img className="navigation__actions--cart" src="/Vector.svg" onClick={() => this.handleClick()} />
                         {noOfItemInCart > 0 ? <p className="navigation__cart_items">{noOfItemInCart} </p> : <p></p>}
                     </div>
-                    <CartPreview isActive={this.state.isActive} />
+                    <CartOverlay isActive={this.state.isActive} />
                 </div>
 
             </div >);
