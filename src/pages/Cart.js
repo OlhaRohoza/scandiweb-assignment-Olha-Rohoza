@@ -8,27 +8,33 @@ import CartPictures from "../components/CartPictures";
 class Cart extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            total: 0,
-            picture: 0
-        }
+        this.countTotal = this.countTotal.bind(this)
+        this.countTax = this.countTax.bind(this)
     }
 
-    componentDidMount() {
+    countTotal() {
         let total = 0;
 
-        this.props.cart.forEach((item) => {
-            total += item.quantity * item.prices.filter((price) => (price.currency.symbol === this.props.currency))[0].amount;
-        })
-        this.setState({ total: Number(total).toFixed(2) })
+        this.props.cart.map((item) =>
+            (total += (item.quantity * item.prices.filter((price) => (price.currency.symbol === this.props.currency))[0].amount)))
+        return total.toFixed(2);
     }
 
+    countTax() {
+        let total = 0;
+        let tax = 0;
 
+        this.props.cart.map((item) =>
+            (total += (item.quantity * item.prices.filter((price) => (price.currency.symbol === this.props.currency))[0].amount)))
+
+        return tax = (total * 0.2).toFixed(2);
+    }
 
     render() {
 
         const { cart, currency, noOfItemInCart, addToCart, deleteFromCart } = this.props;
         console.log(this.props)
+
 
         return (
             <div className="Cart__container">
@@ -36,8 +42,8 @@ class Cart extends Component {
                 <div className="Cart__items">
 
                     {
-                        cart.map((product, i) => (
-                            <div className="Cart__item" key={i}>
+                        cart.map((product) => (
+                            <div className="Cart__item" key={product.name}>
                                 <div className="Cart__item_main">
                                     <p className="Cart__item-brand">{product.brand}</p>
                                     <p className="Cart__item-name">{product.name}</p>
@@ -46,16 +52,16 @@ class Cart extends Component {
                                     </span></p>
 
                                     {
-                                        product.attributes.map((element, i) =>
-                                            <div className="Cart__item-attributes" key={i}>
+                                        product.attributes.map((element) =>
+                                            <div className="Cart__item-attributes" key={element.name}>
                                                 {
                                                     element.name === 'Color'
                                                         ? <>
                                                             <p className="Cart__attribute-name">{element.name}</p>
                                                             <div className="Cart__attribute-items">
                                                                 {
-                                                                    element.items.map(item => (
-                                                                        <div className="Cart__attribute-item" key={item.id}
+                                                                    element.items.map((item, index) => (
+                                                                        <div className="Cart__attribute-item" key={index}
                                                                             // onClick={(e) => this.handleChange(element.name, item.value)}
                                                                             style={
                                                                                 product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => x.value === item.value)
@@ -72,8 +78,8 @@ class Cart extends Component {
                                                             <p className="Cart__attribute-name">{element.name}</p>
                                                             <div className="Cart__attribute-items">
                                                                 {
-                                                                    element.items.map(item => (
-                                                                        <div className="Cart__attribute-item" key={item.id}
+                                                                    element.items.map((item, index) => (
+                                                                        <div className="Cart__attribute-item" key={index}
                                                                             // onClick={(e) => this.handleChange(element.name, item.value)}
                                                                             style={
                                                                                 product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => (x.value === item.value && x.name === element.name))
@@ -109,8 +115,8 @@ class Cart extends Component {
                                         <p className="Cart__item-amount">{product.quantity}</p>
                                         <button className="Cart__item-button" onClick={() => deleteFromCart(
                                             {
-                                                index: i,
                                                 id: product.id,
+                                                quantity: product.quantity,
                                                 selectedAttributes: product.selectedAttributes
                                             }
                                         )}>-</button>
@@ -125,10 +131,20 @@ class Cart extends Component {
                     }
                 </div>
                 <div className="Cart__total">
-                    <p>Total</p>
-                    <p> {currency} {this.state.total}</p>
-
-                    <button className="Cart__button-checkout">CHECK OUT</button>
+                    <div className="Cart__total--part">
+                        <p className="Cart__total--part-one">Tax 20%</p>
+                        <p className="Cart__total--part-two">{currency}
+                            {this.countTax()}</p>
+                    </div>
+                    <div className="Cart__total--part">
+                        <p className="Cart__total--part-one">Quantity:</p>
+                        <p className="Cart__total--part-two">{noOfItemInCart}</p>
+                    </div>
+                    <div className="Cart__total--part">
+                        <p className="Cart__total--part-one">Total:</p>
+                        <p className="Cart__total--part-two">{currency} {this.countTotal()}</p>
+                    </div>
+                    <button className="Cart__button-order">ORDER</button>
                 </div>
             </div>)
     }

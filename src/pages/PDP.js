@@ -103,7 +103,6 @@ class PDP extends Component {
     render() {
         const { product, gallery, attributes, prices, selectedAttributes } = this.state;
         const { currency, addToCart } = this.props;
-        console.log(gallery)
 
         const styleSquare = { height: 54, width: 64, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: '#FFFFFF', color: 'black' };
         const styleSelectedSquare = { height: 54, width: 64, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: 'black', color: '#FFFFFF' }

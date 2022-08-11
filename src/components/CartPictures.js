@@ -13,7 +13,6 @@ class CartPictures extends Component {
         const { name, gallery } = this.props;
         const { numberOfPicture } = this.state;
 
-        console.log('cart-picture', gallery)
         return (
             <div className="Cart__item_part">
                 <img className="Cart__item_picture"

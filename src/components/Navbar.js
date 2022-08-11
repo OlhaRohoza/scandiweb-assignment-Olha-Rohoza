@@ -43,19 +43,17 @@ class Navbar extends Component {
         this.props.onSelect(e.target.value);
     }
 
-    handleClick() {
+    handleClick(e) {
         this.setState(prevState => ({
             isActive: !prevState.isActive
         }));
-        console.log(this.state.isActive);
     }
+
 
     render() {
         const { currencies } = this.state;
         const { currency, noOfItemInCart } = this.props;
         const { pathname } = this.props.location;
-        // console.log(this.props);
-        // console.log(pathname)
 
         let classNameInActive = 'navigation__header_elemet';
         let classNameActive = 'navigation__header_elemet navigation__header_elemet--selected';
@@ -88,7 +86,7 @@ class Navbar extends Component {
                     </select>
 
                     <div className="navigation__cart">
-                        <img className="navigation__actions--cart" src="/Vector.svg" onClick={() => this.handleClick()} />
+                        <img className="navigation__actions--cart" src="/Vector.svg" onClick={(e) => this.handleClick(e)} />
                         {noOfItemInCart > 0 ? <p className="navigation__cart_items">{noOfItemInCart} </p> : <p></p>}
                     </div>
                     <CartOverlay isActive={this.state.isActive} />
