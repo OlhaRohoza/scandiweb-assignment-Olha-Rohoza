@@ -119,9 +119,6 @@
   font-weight: 400;
   font-size: 42px;
   line-height: 160%;
-  /* identical to box height, or 67px */
-
-  /* --c-text */
   color: #1D1F22;
 }
 
@@ -145,7 +142,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
 
+.PLP__cards_picture img {
+  width: 350px;
+  height: 330px;
+  object-fit: contain;
+  background-color: '#FFFFFF'
 }
 
 .PLP__card_description {
@@ -323,7 +326,7 @@
   gap: 32px;
 
   position: absolute;
-  right: 72px;
+  right: 100px;
   width: 350px;
   height: 677px;
 

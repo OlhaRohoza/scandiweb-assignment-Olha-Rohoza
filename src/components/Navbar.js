@@ -4,6 +4,7 @@ import { changeCurrency } from '../redux/actions';
 import CartOverlay from "./CartOverlay";
 import WithRouter from "./WithRouter";
 
+
 class Navbar extends Component {
     constructor(props) {
         super(props)
@@ -24,6 +25,7 @@ class Navbar extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
 
+    // fetching the data from the endpoint with currency data
     async componentDidMount() {
         try {
             const response = await fetch('http://localhost:4000/', {
@@ -39,10 +41,12 @@ class Navbar extends Component {
         }
     }
 
+    // handle the changes of the state of currency 
     handleChange(e) {
-        this.props.onSelect(e.target.value);
+        this.props.changeCurrency(e.target.value);
     }
 
+    // handle the displaying or not a mini-cart
     handleClick(e) {
         this.setState(prevState => ({
             isActive: !prevState.isActive
@@ -62,6 +66,7 @@ class Navbar extends Component {
         return (
             <div className="navigation">
 
+                {/* styling in the navigation bar the page we are visiting */}
                 <div className="navigation__header">
                     {
                         this.elements.map((element, i) => (
@@ -86,7 +91,8 @@ class Navbar extends Component {
                     </select>
 
                     <div className="navigation__cart">
-                        <img className="navigation__actions--cart" src="/Vector.svg" onClick={(e) => this.handleClick(e)} />
+                        <img className="navigation__actions--cart" src="/Vector.svg"
+                            onClick={(e) => this.handleClick(e)} />
                         {noOfItemInCart > 0 ? <p className="navigation__cart_items">{noOfItemInCart} </p> : <p></p>}
                     </div>
                     <CartOverlay isActive={this.state.isActive} />
@@ -102,7 +108,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onSelect: currency => dispatch(changeCurrency(currency))
+    changeCurrency: currency => dispatch(changeCurrency(currency))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WithRouter(Navbar));

@@ -6,6 +6,7 @@ import { addToCart } from '../redux/actions';
 import PDPpictures from "../components/PDPpictures";
 
 
+// PDP - product description page, a.k.a. product page => id = "product id"
 class PDP extends Component {
     constructor(props) {
         super(props)
@@ -48,6 +49,7 @@ class PDP extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    // fetching the data from the endpoint with the data about a certain product
     async componentDidMount() {
         try {
             const response = await fetch('http://localhost:4000/', {
@@ -58,11 +60,13 @@ class PDP extends Component {
             const data = await response.json();
             console.log(data.data.product);
 
+            // setting this.state with arrays 
             this.setState({ product: data.data.product });
             this.setState({ gallery: data.data.product.gallery });
             this.setState({ attributes: data.data.product.attributes });
-            // console.log('attributes length ', data.data.product.attributes.length);
             this.setState({ prices: data.data.product.prices });
+
+            // setting the default values for the "selected attributes"
             if (data.data.product.attributes.length === 1) {
                 this.setState({ selectedAttributes: { name: data.data.product.attributes[0].name, value: data.data.product.attributes[0].items[0].value } })
             } else {
@@ -82,6 +86,7 @@ class PDP extends Component {
         window.scrollTo(0, 0);
     }
 
+    // handle change the value of state for the "selected attributes"
     handleChange(itemName, itemValue) {
 
         if (this.state.selectedAttributes.length >= 2) {
@@ -117,6 +122,7 @@ class PDP extends Component {
                         attributes && attributes.map(element => (
                             <div className="attributes" key={element.id}>
                                 {
+                                    // if the product has color in the swatch attribute
                                     element.name === 'Color'
                                         ? <>
                                             <p className="PDP__product_attribute-name">{element.name}</p>
@@ -126,6 +132,7 @@ class PDP extends Component {
                                                         <div className="PDP__product_attribute-item"
                                                             key={item.id}
                                                             onClick={(e) => this.handleChange(element.name, item.value)}
+
                                                             style={
                                                                 selectedAttributes.length >= 2 && selectedAttributes.find(x => x.value === item.value)
                                                                     ? { height: 32, width: 32, border: '2px solid white', outline: '2px solid #5ECE7B', textAlign: 'center', backgroundColor: item.value }
@@ -144,6 +151,7 @@ class PDP extends Component {
                                                     element.items.map(item => (
                                                         <div className="PDP__product_attribute-item" key={item.id}
                                                             onClick={(e) => this.handleChange(element.name, item.value)}
+                                                            // change style according to the "selected attributes"
                                                             style={
                                                                 selectedAttributes.length >= 2 && selectedAttributes.find(x => (x.value === item.value && x.name === element.name))
                                                                     ? styleSelectedSquare
@@ -166,9 +174,9 @@ class PDP extends Component {
                             :
                             <>
                                 <p className="PDP__product_attribute-price"> {currency}
-                                    {/* {console.log(prices)} */}
                                     {prices.filter((price) => (price.currency.symbol === currency))[0].amount}
                                 </p>
+                                {/* add to cart the product with the "selected attributes" */}
                                 <button className="PDP__product_add-to-cart"
                                     onClick={() => addToCart({
                                         id: product.id,
@@ -181,7 +189,7 @@ class PDP extends Component {
                                     })}>ADD TO CART</button>
                             </>
                         }
-                        {console.log(this.props.cart)}
+
                     </div>
                     <br />
                     <div

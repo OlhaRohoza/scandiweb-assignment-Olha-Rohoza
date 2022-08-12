@@ -9,6 +9,8 @@ class CartOverlay extends Component {
         super(props)
         this.countTotal = this.countTotal.bind(this)
     }
+
+    // handle the total sum in the mini cart
     countTotal() {
         let total = 0;
 
@@ -41,6 +43,7 @@ class CartOverlay extends Component {
                                             product.attributes.map((element, i) =>
                                                 <div className="smallCart__item-attributes" key={element.name}>
                                                     {
+                                                        // if the product has color in the swatch attribute
                                                         element.name === 'Color'
                                                             ? <>
                                                                 <p className="smallCart__attribute-name">{element.name}</p>
@@ -48,7 +51,7 @@ class CartOverlay extends Component {
                                                                     {
                                                                         element.items.map((item, index) => (
                                                                             <div className="smallCart__attribute-item" key={index}
-                                                                                // onClick={(e) => this.handleChange(element.name, item.value)}
+                                                                                // change style according to the "selected attributes"
                                                                                 style={
                                                                                     product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => x.value === item.value)
                                                                                         ? { height: 24, width: 24, border: '2px solid white', outline: '2px solid #5ECE7B', textAlign: 'center', backgroundColor: item.value }
@@ -66,7 +69,7 @@ class CartOverlay extends Component {
                                                                     {
                                                                         element.items.map((item, index) => (
                                                                             <div className="smallCart__attribute-item" key={index}
-                                                                                // onClick={(e) => this.handleChange(element.name, item.value)}
+                                                                                // change style according to the "selected attributes"
                                                                                 style={
                                                                                     product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => (x.value === item.value && x.name === element.name))
                                                                                         ? { padding: "2px 4px", border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: 'black', color: '#FFFFFF' }
@@ -85,7 +88,9 @@ class CartOverlay extends Component {
                                         }
 
                                     </div>
+
                                     <div className="smallCart__item_part">
+                                        {/* adjusting the quality in the cart for the certain product by "id" and "selected attributes"  */}
                                         <button className="smallCart__item-button"
                                             onClick={() =>
                                                 addToCart(
@@ -100,6 +105,7 @@ class CartOverlay extends Component {
                                                     }
                                                 )}>+</button>
                                         <p className="smallCart__item-amount">{product.quantity}</p>
+                                        {/* adjusting the quality or deleting from the cart for the certain product by "id" and "selected attributes" */}
                                         <button className="smallCart__item-button"
                                             onClick={() => deleteFromCart(
                                                 {
@@ -109,20 +115,19 @@ class CartOverlay extends Component {
                                                 }
                                             )}>-</button>
                                     </div>
+
                                     <div className="smallCart__item_part">
                                         <img className="smallCart__item_picture"
                                             src={product.gallery[0]}
                                             alt={product.name}
                                             style={{ width: 120, height: 190, objectFit: 'contain' }}
                                         />
-
                                     </div>
-
                                 </div>
-
                             ))
                         }
                     </div>
+
                     <div className="smallCart__total">
                         <p>Total</p>
                         <p> {currency} {this.countTotal()}</p>

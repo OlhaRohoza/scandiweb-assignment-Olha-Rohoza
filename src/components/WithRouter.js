@@ -1,5 +1,7 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
+
+// the function for navigation - the WithRouter from react-router-dom is deprecated now
 const WithRouter = Component => {
 
     const ComponentWithRouterProp = props => {

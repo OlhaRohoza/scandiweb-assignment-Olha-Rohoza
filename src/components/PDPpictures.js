@@ -1,6 +1,6 @@
 import { Component } from "react";
 
-
+// Component for displaying pictures in the PDP - product description page
 class PDPpictures extends Component {
     constructor(props) {
         super(props)

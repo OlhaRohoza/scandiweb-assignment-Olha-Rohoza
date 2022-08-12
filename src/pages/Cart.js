@@ -12,6 +12,7 @@ class Cart extends Component {
         this.countTax = this.countTax.bind(this)
     }
 
+    // this method counts the total in the cart
     countTotal() {
         let total = 0;
 
@@ -20,6 +21,7 @@ class Cart extends Component {
         return total.toFixed(2);
     }
 
+    // this method counts the tax in the cart
     countTax() {
         let total = 0;
         let tax = 0;
@@ -30,11 +32,10 @@ class Cart extends Component {
         return tax = (total * 0.2).toFixed(2);
     }
 
-    render() {
 
+    render() {
         const { cart, currency, noOfItemInCart, addToCart, deleteFromCart } = this.props;
         console.log(this.props)
-
 
         return (
             <div className="Cart__container">
@@ -55,6 +56,7 @@ class Cart extends Component {
                                         product.attributes.map((element) =>
                                             <div className="Cart__item-attributes" key={element.name}>
                                                 {
+                                                    // if the product has color in the swatch attribute
                                                     element.name === 'Color'
                                                         ? <>
                                                             <p className="Cart__attribute-name">{element.name}</p>
@@ -62,7 +64,7 @@ class Cart extends Component {
                                                                 {
                                                                     element.items.map((item, index) => (
                                                                         <div className="Cart__attribute-item" key={index}
-                                                                            // onClick={(e) => this.handleChange(element.name, item.value)}
+                                                                            // change style according to the "selected attributes"
                                                                             style={
                                                                                 product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => x.value === item.value)
                                                                                     ? { height: 24, width: 24, border: '2px solid white', outline: '2px solid #5ECE7B', textAlign: 'center', backgroundColor: item.value }
@@ -80,7 +82,7 @@ class Cart extends Component {
                                                                 {
                                                                     element.items.map((item, index) => (
                                                                         <div className="Cart__attribute-item" key={index}
-                                                                            // onClick={(e) => this.handleChange(element.name, item.value)}
+                                                                            // change style according to the "selected attributes"
                                                                             style={
                                                                                 product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => (x.value === item.value && x.name === element.name))
                                                                                     ? { height: 45, width: 63, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: 'black', color: '#FFFFFF' }
@@ -101,6 +103,7 @@ class Cart extends Component {
                                 </div>
                                 <div className="Cart__item_actions">
                                     <div className="Cart__item_buttons">
+                                        {/* adjusting the quality in the cart for the certain product by "id" and "selected attributes" */}
                                         <button className="Cart__item-button" onClick={() => addToCart(
                                             {
                                                 id: product.id,
@@ -113,6 +116,7 @@ class Cart extends Component {
                                             }
                                         )}>+</button>
                                         <p className="Cart__item-amount">{product.quantity}</p>
+                                        {/* adjusting the quality or deleting from the cart for the certain product by "id" and "selected attributes" */}
                                         <button className="Cart__item-button" onClick={() => deleteFromCart(
                                             {
                                                 id: product.id,
@@ -121,6 +125,7 @@ class Cart extends Component {
                                             }
                                         )}>-</button>
                                     </div>
+
                                     <CartPictures gallery={product.gallery} name={product.name} />
 
                                 </div>

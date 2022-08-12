@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { addToCart } from '../redux/actions';
 
 
+// PLP - product listing page, a.k.a. category page = three categories: all, tech, clothes
 class PLP extends Component {
+
     constructor(props) {
         super(props)
         this.queryCategories = `
@@ -41,6 +43,7 @@ class PLP extends Component {
         }
     }
 
+    // fetching the data from the endpoint with data about a certain Category 
     async componentDidMount() {
         try {
             const response = await fetch('http://localhost:4000/', {
@@ -57,6 +60,7 @@ class PLP extends Component {
         }
     }
 
+
     render() {
         const { category } = this.state;
         const { navigate, currency, addToCart } = this.props;
@@ -64,15 +68,16 @@ class PLP extends Component {
 
         return (
             <div className="PLP__container">
+
                 <p className="PLP__container_name">Category "{this.props.select}"</p>
                 <div className="PLP__cards">
 
                     {category && category.slice(0, 6).map((item) => (
                         <div className="PLP__card" key={item.id} >
+
                             <div className="PLP__cards_picture">
-                                <img src={item.gallery[0]} alt='item' style={!item.inStock
-                                    ? { width: 350, height: 330, objectFit: 'contain', opacity: 0.5, backgroundColor: '#FFFFFF' }
-                                    : { width: 350, height: 330, objectFit: 'contain' }} />
+                                <img src={item.gallery[0]} alt='item'
+                                    style={!item.inStock ? { opacity: 0.5 } : {}} />
                             </div>
                             <>
                                 <div className="PLP__card_description">
@@ -81,7 +86,9 @@ class PLP extends Component {
                                     <p><strong>{currency}
                                         {item.prices.filter((price) => (price.currency.symbol === currency))[0].amount} </strong></p>
                                     <p className="PLP_card_stock">{!item.inStock ? "OUT OF STOCK" : ''}</p>
-                                    {/* {console.log(item.attributes)} */}
+
+                                    {/* the cart-image will appear if the product is inStock and you hover over the product-card
+                                        after the clicking on cart the product with be added to the cart with first selected attributes as defaults.  */}
                                     {
                                         item.inStock &&
                                         <img src="/Common.png" alt='cart' className="PLP__card_button"

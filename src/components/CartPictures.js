@@ -1,5 +1,7 @@
 import { Component } from "react";
 
+
+// Component for displaying pictures in the Cart page for a certain product
 class CartPictures extends Component {
     constructor(props) {
         super(props)
@@ -23,6 +25,7 @@ class CartPictures extends Component {
                 {
                     gallery.length >= 2 && (
                         <div className="Cart__item_picture--buttons">
+                            {/* display arrows only when there are multiple images */}
                             <button
                                 disabled={numberOfPicture === 0}
                                 className="Cart__item_picture--button"

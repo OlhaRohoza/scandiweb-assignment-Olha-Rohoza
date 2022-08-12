@@ -6,6 +6,7 @@ const initialState = {
     cart: []
 }
 
+// function to check of the two objects is equal
 const objectsEqual = (o1, o2) =>
     typeof o1 === 'object' && Object.keys(o1).length > 0
         ? Object.keys(o1).length === Object.keys(o2).length
@@ -22,7 +23,7 @@ export const shopping = (state = initialState, action) => {
 
         case 'ADD_TO_CART':
             const { id, selectedAttributes } = payload;
-
+            // check if there's no "selected attributes" => search in the cart by "product id"
             if (selectedAttributes === []) {
                 const inCart = state.cart.find((item) => (item.id === id) ? true : false);
                 return {
@@ -41,6 +42,7 @@ export const shopping = (state = initialState, action) => {
                             quantity: 1
                         }],
                 };
+                // check if there is any "selected attributes" => search in the cart by "product id" and "selected attributes"
             } else {
                 const inCart = state.cart.find((item) =>
                     (item.id === id && (objectsEqual(item.selectedAttributes, selectedAttributes))) ? true : false);
@@ -63,8 +65,9 @@ export const shopping = (state = initialState, action) => {
             }
 
         case 'DELETE_FROM_CART':
-
+            // adjust quantity of a cetain product in a cart if we have it more than 2
             if (payload.quantity >= 2) {
+                // adjust quantity => if there's no "selected attributes" => search in the cart by "product id"
                 if (payload.selectedAttributes === []) {
                     return {
                         ...state,
@@ -77,7 +80,9 @@ export const shopping = (state = initialState, action) => {
                                 }
                                 : item)
                     };
+
                 } else {
+                    // adjust quantity => if there is any "selected attributes" => search in the cart by "product id" and "selected attributes"
                     return {
                         ...state,
                         noOfItemInCart: state.noOfItemInCart - 1,
@@ -90,15 +95,18 @@ export const shopping = (state = initialState, action) => {
                                 : item)
                     }
                 }
-                // when quality = 1
+                // when quality = 1 and we need to delete it from the cart 
             } else {
+                // delete from the cart => if there's no "selected attributes" => search in the cart by "product id"
                 if (payload.selectedAttributes === []) {
                     return {
                         ...state,
                         noOfItemInCart: state.noOfItemInCart - 1,
                         cart: state.cart.filter(product => (product.id !== payload.id))
                     }
+
                 } else {
+                    // delete from the cart => if there is any "selected attributes" => search in the cart by "product id" and "selected attributes"
                     return {
                         ...state,
                         noOfItemInCart: state.noOfItemInCart - 1,
