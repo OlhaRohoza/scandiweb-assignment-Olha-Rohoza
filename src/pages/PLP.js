@@ -2,6 +2,7 @@ import { Component } from "react";
 import WithRouter from "../components/WithRouter";
 import { connect } from 'react-redux';
 import { addToCart } from '../redux/actions';
+import { queryCategories } from '../components/gql-queries';
 
 
 // PLP - product listing page, a.k.a. category page = three categories: all, tech, clothes
@@ -9,35 +10,7 @@ class PLP extends Component {
 
     constructor(props) {
         super(props)
-        this.queryCategories = `
-                    {
-                            category (input: {
-                                title: "${props.select}"
-                            }) {
-                                name
-                        products {
-                                    id
-                                    name
-                                    brand
-                                    category
-                                    gallery
-                                    inStock
-                            attributes{
-                                name
-                                items {
-                                value
-                                }
-                            }
-                            prices {
-                            currency {
-                                            symbol
-                                        }
-                                        amount
-                                    }
-                                }
-                            }
-
-                        }`
+        this.queryCategories = queryCategories(props.select);
         this.state = {
             category: []
         }
@@ -73,7 +46,8 @@ class PLP extends Component {
                 <div className="PLP__cards">
 
                     {category && category.slice(0, 6).map((item) => (
-                        <div className="PLP__card" key={item.id} >
+                        // Should be able to visit product page by clicking anywhere on product card.
+                        <div className="PLP__card" key={item.id} onClick={() => navigate(`/PDP/${item.id}`)} >
 
                             <div className="PLP__cards_picture">
                                 <img src={item.gallery[0]} alt='item'
@@ -81,8 +55,7 @@ class PLP extends Component {
                             </div>
                             <>
                                 <div className="PLP__card_description">
-                                    <p className="PLP__card_brand-name"
-                                        onClick={() => navigate(`/PDP/${item.id}`)} >{item.brand} {item.name}</p>
+                                    <p className="PLP__card_brand-name" >{item.brand} {item.name}</p>
                                     <p><strong>{currency}
                                         {item.prices.filter((price) => (price.currency.symbol === currency))[0].amount} </strong></p>
                                     <p className="PLP_card_stock">{!item.inStock ? "OUT OF STOCK" : ''}</p>

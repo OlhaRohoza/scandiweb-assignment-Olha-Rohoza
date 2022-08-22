@@ -1,62 +1,32 @@
 import { Component } from "react";
 import { connect } from 'react-redux';
-import { changeCurrency } from '../redux/actions';
 import CartOverlay from "./CartOverlay";
+import CurrencyOverlay from "./CurrencyOverlay";
 import WithRouter from "./WithRouter";
 
 
 class Navbar extends Component {
     constructor(props) {
         super(props)
-        this.queryCurrency = `
-                        {
-                            currencies {
-                            label
-                            symbol
-                            }
-                        }
-                        `
+
         this.elements = ['all', 'tech', 'clothes']
         this.state = {
-            currencies: [],
             isActive: false
         }
-        this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
 
-    // fetching the data from the endpoint with currency data
-    async componentDidMount() {
-        try {
-            const response = await fetch('http://localhost:4000/', {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ query: this.queryCurrency })
-            })
-            const data = await response.json();
-            // console.log(data.data.currencies);
-            this.setState({ currencies: data.data.currencies });
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    // handle the changes of the state of currency 
-    handleChange(e) {
-        this.props.changeCurrency(e.target.value);
-    }
-
     // handle the displaying or not a mini-cart
-    handleClick(e) {
+    handleClick() {
         this.setState(prevState => ({
             isActive: !prevState.isActive
         }));
+        document.body.classList.toggle('overflow-hidden');
     }
 
 
     render() {
-        const { currencies } = this.state;
-        const { currency, noOfItemInCart } = this.props;
+        const { noOfItemInCart } = this.props;
         const { pathname } = this.props.location;
 
         let classNameInActive = 'navigation__header_elemet';
@@ -78,24 +48,17 @@ class Navbar extends Component {
                     }
                 </div>
 
-                <img className="navigation__logo" src="/a-logo.svg" />
+                <img className="navigation__logo" src="/a-logo.svg" alt='logo' />
 
                 <div className="navigation__actions">
-                    <select className='navigation__actions_currency'
-                        value={currency} onChange={e => this.handleChange(e)}>
-                        {currencies &&
-                            currencies.map((valuta, index) => (
-                                <option key={index} value={valuta.symbol} > {valuta.symbol}</option>
-                            ))
-                        }
-                    </select>
+                    <CurrencyOverlay isActive={this.state.isActive} handleClick={this.handleClick} />
 
                     <div className="navigation__cart">
-                        <img className="navigation__actions--cart" src="/Vector.svg"
-                            onClick={(e) => this.handleClick(e)} />
+                        <img className="navigation__actions--cart" src="/Vector.svg" alt='vector'
+                            onClick={() => this.handleClick()} />
                         {noOfItemInCart > 0 ? <p className="navigation__cart_items">{noOfItemInCart} </p> : <p></p>}
                     </div>
-                    <CartOverlay isActive={this.state.isActive} />
+                    <CartOverlay isActive={this.state.isActive} handleClick={this.handleClick} />
                 </div>
 
             </div >);
@@ -107,8 +70,4 @@ const mapStateToProps = state => ({
     cart: state.shopping.cart
 });
 
-const mapDispatchToProps = dispatch => ({
-    changeCurrency: currency => dispatch(changeCurrency(currency))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(WithRouter(Navbar));
+export default connect(mapStateToProps, null)(WithRouter(Navbar));

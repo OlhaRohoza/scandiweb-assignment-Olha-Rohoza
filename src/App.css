@@ -101,6 +101,31 @@
   outline: 0px;
 }
 
+.currency__signs {
+  display: flex;
+}
+
+.currency__overlay {
+  height: 169px;
+  width: 114px;
+  left: 1248px;
+  top: 65px;
+  border-radius: 0px;
+}
+
+.currency__overlay-row {
+  font-family: Raleway;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 29px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.currency__overlay-row:hover {
+  background-color: #EEEEEE;
+}
+
 .PLP__container,
 .Cart__container {
   margin-top: 160px;
@@ -126,6 +151,7 @@
   display: flex;
   /* justify-content: space-between; */
   flex-wrap: wrap;
+  cursor: pointer;
 }
 
 .PLP__card {
@@ -186,6 +212,25 @@
   display: flex;
   flex-direction: column;
   row-gap: 1em;
+  /* one column and if it goes out of expect height,
+    then put max-height and scrollbar for it */
+  max-height: 510px;
+  overflow: auto;
+}
+
+.PDP__pictures_small-pictures {
+  height: 79px;
+  width: 80px;
+  background-color: 'white';
+  object-fit: contain;
+}
+
+.PDP__pictures_main-picture {
+  margin-left: 25px;
+  height: 510px;
+  width: 600px;
+  background-color: '#white';
+  object-fit: contain;
 }
 
 .PDP__product_details {
@@ -296,10 +341,8 @@
   font-weight: 400;
 }
 
-.PLP__card_brand-name:hover {
-  cursor: pointer;
-  text-decoration: underline;
-  color: blue;
+.overflow-hidden {
+  overflow: hidden;
 }
 
 .smallCart {
@@ -316,14 +359,26 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
+.displayed {
+  display: block;
+}
+
+.overflow {
+  overflow: auto;
+}
+
+.hidden {
+  display: none;
+}
+
 .smallCart__container {
   z-index: 99;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   padding: 0 16px;
-  gap: 32px;
+  gap: 16px;
 
   position: absolute;
   right: 100px;

@@ -7,7 +7,9 @@ import { addToCart, deleteFromCart } from '../redux/actions';
 class CartOverlay extends Component {
     constructor(props) {
         super(props)
-        this.countTotal = this.countTotal.bind(this)
+
+        this.countTotal = this.countTotal.bind(this);
+        this.handleMove = this.handleMove.bind(this);
     }
 
     // handle the total sum in the mini cart
@@ -19,13 +21,22 @@ class CartOverlay extends Component {
         return total.toFixed(2);
     }
 
+    handleMove() {
+        // cart-overlay closes on route change
+        this.props.handleClick();
+        this.props.navigate(`/cart`);
+    }
+
 
     render() {
-        const { cart, currency, noOfItemInCart, navigate, addToCart, deleteFromCart } = this.props;
+        const { cart, currency, noOfItemInCart, addToCart, deleteFromCart } = this.props;
+
+        // style={this.props.isActive ? { display: "block" } : { display: 'none' }}
+        // style={this.props.isActive ? { display: "block", overflow: "auto" } : { display: 'none' }}
 
         return (
-            <div className="smallCart" style={this.props.isActive ? { display: "block" } : { display: 'none' }}>
-                <div className="smallCart__container" style={this.props.isActive ? { display: "block", overflow: "auto" } : { display: 'none' }}>
+            <div className={this.props.isActive ? 'smallCart displayed' : 'smallCart hidden'} >
+                <div className={this.props.isActive ? 'smallCart__container overflow' : 'smallCart__container'} >
                     <p className="smallCart__name"><strong>My Bag,</strong> {noOfItemInCart} items</p>
                     <div className="smallCart__items">
 
@@ -36,7 +47,7 @@ class CartOverlay extends Component {
                                         <p className="smallCart__item-title">{product.brand}</p>
                                         <p className="smallCart__item-title">{product.name}</p>
                                         <p className="smallCart__item-price"> <span>
-                                            {currency} {(product.quantity * product.prices.filter((price) => (price.currency.symbol === currency))[0].amount).toFixed(2)}
+                                            {currency} {(product.prices.filter((price) => (price.currency.symbol === currency))[0].amount).toFixed(2)}
                                         </span></p>
 
                                         {
@@ -134,7 +145,7 @@ class CartOverlay extends Component {
                     </div>
                     <div className="smallCart__buttons">
                         <button className="smallCart__button smallCart__button-bag"
-                            onClick={() => navigate(`/cart`)}
+                            onClick={() => this.handleMove()}
                         >VIEW BAG</button>
                         <button className="smallCart__button smallCart__button-checkout">CHECK OUT</button>
                     </div>
