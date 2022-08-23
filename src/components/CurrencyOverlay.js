@@ -9,12 +9,9 @@ class CurrencyOverlay extends Component {
         super(props)
 
         this.state = {
-            currencies: [],
-            isActive: false
+            currencies: []
         }
 
-        this.handleClick = this.handleClick.bind(this);
-        // this.handleChange = this.handleChange.bind(this);
     }
 
     // fetching the data from the endpoint with currency data
@@ -33,59 +30,34 @@ class CurrencyOverlay extends Component {
         }
     }
 
-    // handle the displaying or not a mini-cart
-    handleClick() {
-        this.setState(prevState => ({
-            isActive: !prevState.isActive
-        }));
-        document.body.classList.toggle('overflow-hidden');
-    }
-
-    // handle the changes of the state of currency
-    // handleChange(e) {
-    //     this.props.changeCurrency(e.target.value);
-    // '&and;'
-    // }
-
 
     render() {
 
         const { currencies } = this.state;
-        const { currency, changeCurrency } = this.props;
+        const { currency, changeCurrency, isActive, handleClickCurrency } = this.props;
 
-        console.log(currencies);
+        console.log(this.props);
 
         return (
             <div className='navigation__actions_currency'>
-                <div className="currency__signs" onClick={() => this.handleClick()}>
+                <div className="currency__signs" onClick={() => handleClickCurrency()}>
                     <p>{currency}</p>
-                    {this.state.isActive ? <p className="currency__sign-overlay">&and;</p> : <p className="currency__sign-overlay">&or;</p>}
+                    {isActive ? <p className="currency__sign-overlay">&and;</p> : <p className="currency__sign-overlay">&or;</p>}
                 </div>
 
-                <div className={this.state.isActive ? "currency-overlay displayed" : "currency__overlay hidden"}>
-                    <div className={this.state.isActive ? "currency-overlay__container displayed" : "currency-overlay__container hidden"} >
+                <div className={isActive ? "currency-overlay displayed" : "currency__overlay hidden"}>
+                    <div className={isActive ? "currency-overlay__container displayed" : "currency-overlay__container hidden"} >
                         {
                             currencies && currencies.filter(element => element.symbol !== currency)
                                 .map((item, i) => (
-
-                                    <p
-                                        className="currency-overlay__row" key={i}
-                                        onClick={() => changeCurrency(item.symbol)} >
-                                        {item.symbol} {item.label}
-                                        {console.log(item.symbol)}
+                                    <p className="currency-overlay__row" key={i}
+                                        onClick={() => changeCurrency(item.symbol)}
+                                    > {item.symbol} {item.label}
                                     </p>
-
                                 ))
                         }
                     </div>
                 </div>
-
-                {/* value={currency} onChange={e => this.handleChange(e)}> */}
-                {/* {currencies &&
-                    currencies.map((valuta, index) => (
-                        <option key={index} value={valuta.symbol} > {valuta.symbol}</option>
-                    ))
-                } */}
             </div>
         )
     }

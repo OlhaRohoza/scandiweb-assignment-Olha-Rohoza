@@ -12,10 +12,12 @@ class Navbar extends Component {
 
         this.queryCategory = queryCategory
         this.state = {
-            isActive: false,
+            isActiveCart: false,
+            isActiveCurrency: false,
             elements: []
         }
-        this.handleClick = this.handleClick.bind(this);
+        this.handleClickCart = this.handleClickCart.bind(this);
+        this.handleClickCurrency = this.handleClickCurrency.bind(this);
     }
 
     // fetching the data from the endpoint with data about a certain Category name
@@ -36,11 +38,23 @@ class Navbar extends Component {
     }
 
     // handle the displaying or not a mini-cart
-    handleClick() {
-        this.setState(prevState => ({
-            isActive: !prevState.isActive
-        }));
-        document.body.classList.toggle('overflow-hidden');
+    handleClickCart() {
+        if (!this.state.isActiveCurrency) {
+            this.setState(prevState => ({
+                isActiveCart: !prevState.isActiveCart
+            }));
+            document.body.classList.toggle('overflow-hidden');
+        }
+    }
+
+    // handle the displaying or not a currency overlay
+    handleClickCurrency() {
+        if (!this.state.isActiveCart) {
+            this.setState(prevState => ({
+                isActiveCurrency: !prevState.isActiveCurrency
+            }));
+            document.body.classList.toggle('overflow-hidden');
+        }
     }
 
 
@@ -71,14 +85,15 @@ class Navbar extends Component {
                 <img className="navigation__logo" src="/a-logo.svg" alt='logo' />
 
                 <div className="navigation__actions">
-                    <CurrencyOverlay />
+                    <CurrencyOverlay isActive={this.state.isActiveCurrency} handleClickCurrency={this.handleClickCurrency} isActiveCart={this.state.isActiveCart} />
 
                     <div className="navigation__cart">
                         <img className="navigation__actions--cart" src="/Vector.svg" alt='vector'
-                            onClick={() => this.handleClick()} />
+                            onClick={() => this.handleClickCart()} />
                         {noOfItemInCart > 0 ? <p className="navigation__cart_items">{noOfItemInCart} </p> : <p></p>}
                     </div>
-                    <CartOverlay isActive={this.state.isActive} handleClick={this.handleClick} />
+
+                    <CartOverlay isActive={this.state.isActiveCart} handleClickCart={this.handleClickCart} />
                 </div>
 
             </div >);

@@ -23,20 +23,17 @@ class CartOverlay extends Component {
 
     handleMove() {
         // cart-overlay closes on route change
-        this.props.handleClick();
+        this.props.handleClickCart();
         this.props.navigate(`/cart`);
     }
 
 
     render() {
-        const { cart, currency, noOfItemInCart, addToCart, deleteFromCart } = this.props;
-
-        // style={this.props.isActive ? { display: "block" } : { display: 'none' }}
-        // style={this.props.isActive ? { display: "block", overflow: "auto" } : { display: 'none' }}
+        const { cart, currency, noOfItemInCart, addToCart, deleteFromCart, isActive } = this.props;
 
         return (
-            <div className={this.props.isActive ? 'smallCart displayed' : 'smallCart hidden'} >
-                <div className={this.props.isActive ? 'smallCart__container displayed' : 'smallCart__container hidden'} >
+            <div className={isActive ? 'smallCart displayed' : 'smallCart hidden'} >
+                <div className={isActive ? 'smallCart__container displayed' : 'smallCart__container hidden'} >
                     <p className="smallCart__name"><strong>My Bag,</strong> {noOfItemInCart} items</p>
                     <div className="smallCart__items">
 
@@ -131,7 +128,6 @@ class CartOverlay extends Component {
                                         <img className="smallCart__item_picture"
                                             src={product.gallery[0]}
                                             alt={product.name}
-                                            style={{ width: 120, height: 190, objectFit: 'contain' }}
                                         />
                                     </div>
                                 </div>

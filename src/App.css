@@ -105,6 +105,12 @@
   display: flex;
 }
 
+.currency__sign-overlay {
+  align-self: flex-end;
+  font-size: 12px;
+  padding: 5px;
+}
+
 .currency-overlay {
   display: none;
   position: fixed;
@@ -124,7 +130,7 @@
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  gap: 16px;
+  /* gap: 16px; */
 
   position: absolute;
   height: 200px;
@@ -462,6 +468,12 @@
   line-height: 16px;
   letter-spacing: 0px;
   text-align: left;
+}
+
+.smallCart__item_picture {
+  width: 120px;
+  height: 190px;
+  object-fit: contain;
 }
 
 .smallCart__item-button {
