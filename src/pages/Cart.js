@@ -49,7 +49,7 @@ class Cart extends Component {
                                     <p className="Cart__item-brand">{product.brand}</p>
                                     <p className="Cart__item-name">{product.name}</p>
                                     <p className="Cart__item-price"> <span>
-                                        {currency} {product.quantity * product.prices.filter((price) => (price.currency.symbol === currency))[0].amount}
+                                        {currency} {product.prices.filter((price) => (price.currency.symbol === currency))[0].amount}
                                     </span></p>
 
                                     {

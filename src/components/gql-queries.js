@@ -14,37 +14,31 @@ export const queryCurrency = `{
                                 }
                             }`
 
-export function queryCategories(name) {
-    return `{
-                category (input: {
-                    title: "${name}"
-                }) 
-                    {
+export const queryCategoriesPLP = `{
+            categories {
                         name
                         products {
-                            id
-                            name
-                            brand
-                            category
-                            gallery
-                            inStock
-                        attributes{
-                            name
-                            items {
-                            value
-                            }
-                        }
-                        prices {
-                        currency {
-                                        symbol
-                                    }
-                                    amount
+                                    id
+                                    name
+                                    brand
+                                    category
+                                    gallery
+                                    inStock
+                                    attributes{
+                                                name
+                                                items {
+                                                        value
+                                                    }
+                                                }
+                                    prices {
+                                            currency {
+                                                    symbol
+                                                    }
+                                            amount
+                                            }
                                 }
-                            }
                         }
-
             }`
-}
 
 export function queryProduct(id) {
     return `{
