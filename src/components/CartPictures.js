@@ -20,7 +20,6 @@ class CartPictures extends Component {
                 <img className="Cart__item_picture"
                     src={gallery[numberOfPicture]}
                     alt={name}
-                    style={{ width: 200, height: 288, objectFit: 'contain' }}
                 />
                 {
                     gallery.length >= 2 && (

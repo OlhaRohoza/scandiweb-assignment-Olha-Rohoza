@@ -101,6 +101,61 @@
   outline: 0px;
 }
 
+.currency__signs {
+  display: flex;
+}
+
+.currency__sign-overlay {
+  align-self: flex-end;
+  font-size: 12px;
+  padding: 5px;
+}
+
+.currency-overlay {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  margin-top: 85px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.currency-overlay__container {
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  /* gap: 16px; */
+
+  position: absolute;
+  height: 200px;
+  width: 114px;
+  left: 1248px;
+  top: 0px;
+  border-radius: 0px;
+
+  background: #FFFFFF;
+}
+
+.currency-overlay__row {
+  font-family: Raleway;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 29px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.currency-overlay__row:hover {
+  background-color: #EEEEEE;
+}
+
 .PLP__container,
 .Cart__container {
   margin-top: 160px;
@@ -126,6 +181,7 @@
   display: flex;
   /* justify-content: space-between; */
   flex-wrap: wrap;
+  cursor: pointer;
 }
 
 .PLP__card {
@@ -149,6 +205,10 @@
   height: 330px;
   object-fit: contain;
   background-color: '#FFFFFF'
+}
+
+.PLP__cards_picture-outstock {
+  opacity: 0.5;
 }
 
 .PLP__card_description {
@@ -186,6 +246,25 @@
   display: flex;
   flex-direction: column;
   row-gap: 1em;
+  /* one column and if it goes out of expect height,
+    then put max-height and scrollbar for it */
+  max-height: 510px;
+  overflow: auto;
+}
+
+.PDP__pictures_small-pictures {
+  height: 79px;
+  width: 80px;
+  background-color: 'white';
+  object-fit: contain;
+}
+
+.PDP__pictures_main-picture {
+  margin-left: 25px;
+  height: 510px;
+  width: 600px;
+  background-color: '#white';
+  object-fit: contain;
 }
 
 .PDP__product_details {
@@ -296,10 +375,8 @@
   font-weight: 400;
 }
 
-.PLP__card_brand-name:hover {
-  cursor: pointer;
-  text-decoration: underline;
-  color: blue;
+.overflow-hidden {
+  overflow: hidden;
 }
 
 .smallCart {
@@ -320,10 +397,10 @@
   z-index: 99;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   padding: 0 16px;
-  gap: 32px;
+  gap: 16px;
 
   position: absolute;
   right: 100px;
@@ -331,6 +408,15 @@
   height: 677px;
 
   background: #FFFFFF;
+  overflow: auto;
+}
+
+.displayed {
+  display: block;
+}
+
+.hidden {
+  display: none;
 }
 
 .smallCart__name {
@@ -341,6 +427,7 @@
   font-weight: 700;
   line-height: 26px;
   letter-spacing: 0em;
+  /* padding: 0 16px; */
   text-align: left;
 }
 
@@ -384,6 +471,13 @@
   line-height: 16px;
   letter-spacing: 0px;
   text-align: left;
+}
+
+.smallCart__item_picture {
+  width: 120px;
+  height: 190px;
+  object-fit: contain;
+
 }
 
 .smallCart__item-button {
@@ -504,6 +598,12 @@
 .Cart__item_part {
   display: flex;
   flex-direction: column;
+}
+
+.Cart__item_picture {
+  width: 200px;
+  height: 288px;
+  object-fit: contain;
 }
 
 .Cart__item_picture--buttons {

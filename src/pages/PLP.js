@@ -2,6 +2,7 @@ import { Component } from "react";
 import WithRouter from "../components/WithRouter";
 import { connect } from 'react-redux';
 import { addToCart } from '../redux/actions';
+import { queryCategoriesPLP } from '../components/gql-queries';
 
 
 // PLP - product listing page, a.k.a. category page = three categories: all, tech, clothes
@@ -9,37 +10,10 @@ class PLP extends Component {
 
     constructor(props) {
         super(props)
-        this.queryCategories = `
-                    {
-                            category (input: {
-                                title: "${props.select}"
-                            }) {
-                                name
-                        products {
-                                    id
-                                    name
-                                    brand
-                                    category
-                                    gallery
-                                    inStock
-                            attributes{
-                                name
-                                items {
-                                value
-                                }
-                            }
-                            prices {
-                            currency {
-                                            symbol
-                                        }
-                                        amount
-                                    }
-                                }
-                            }
-
-                        }`
+        this.queryCategories = queryCategoriesPLP;
         this.state = {
-            category: []
+            categories: [],
+            category: [],
         }
     }
 
@@ -52,19 +26,23 @@ class PLP extends Component {
                 body: JSON.stringify({ query: this.queryCategories })
             })
             const data = await response.json();
-            console.log(data.data.category.products);
+            console.log(data.data.categories);
 
-            this.setState({ category: data.data.category.products });
+            // data.data.categories.map(element => console.log(element.products))
+
+            this.setState({ categories: data.data.categories });
         } catch (err) {
             console.log(err);
         }
     }
 
 
-    render() {
-        const { category } = this.state;
-        const { navigate, currency, addToCart } = this.props;
 
+    render() {
+        const { navigate, currency, addToCart, select } = this.props;
+
+        // console.log(Object.values(this.state.categories.filter(element => element.name === select).map(element => element.products.map(item => item.id))))
+        const { categories } = this.state;
 
         return (
             <div className="PLP__container">
@@ -72,47 +50,49 @@ class PLP extends Component {
                 <p className="PLP__container_name">Category "{this.props.select}"</p>
                 <div className="PLP__cards">
 
-                    {category && category.slice(0, 6).map((item) => (
-                        <div className="PLP__card" key={item.id} >
+                    {categories && Object.values(this.state.categories.filter(element => element.name === select)
+                        .map(element => element.products.slice(0, 6).map(item => (
 
-                            <div className="PLP__cards_picture">
-                                <img src={item.gallery[0]} alt='item'
-                                    style={!item.inStock ? { opacity: 0.5 } : {}} />
-                            </div>
-                            <>
-                                <div className="PLP__card_description">
-                                    <p className="PLP__card_brand-name"
-                                        onClick={() => navigate(`/PDP/${item.id}`)} >{item.brand} {item.name}</p>
-                                    <p><strong>{currency}
-                                        {item.prices.filter((price) => (price.currency.symbol === currency))[0].amount} </strong></p>
-                                    <p className="PLP_card_stock">{!item.inStock ? "OUT OF STOCK" : ''}</p>
+                            // Should be able to visit product page by clicking anywhere on product card.
+                            <div className="PLP__card" key={item.id} onClick={() => navigate(`/PDP/${item.id}`)} >
 
-                                    {/* the cart-image will appear if the product is inStock and you hover over the product-card
-                                        after the clicking on cart the product with be added to the cart with first selected attributes as defaults.  */}
-                                    {
-                                        item.inStock &&
-                                        <img src="/Common.png" alt='cart' className="PLP__card_button"
-                                            onClick={() => addToCart(
-                                                {
-                                                    id: item.id,
-                                                    name: item.name,
-                                                    brand: item.brand,
-                                                    gallery: item.gallery,
-                                                    prices: item.prices,
-                                                    attributes: item.attributes,
-                                                    selectedAttributes: item.attributes.length === 0 ? []
-                                                        : item.attributes.length === 1
-                                                            ? { name: item.attributes[0].name, value: item.attributes[0].items[0].value }
-                                                            : item.attributes.map(x => ({ name: x.name, value: x.items[0].value }))
-                                                }
-
-                                            )}
-                                        />
-                                    }
+                                <div className="PLP__cards_picture">
+                                    <img src={item.gallery[0]} alt='item'
+                                        className={!item.inStock ? 'PLP__cards_picture-outstock' : ''} />
                                 </div>
-                            </>
-                        </div>
-                    ))}
+                                <>
+                                    <div className="PLP__card_description">
+                                        <p className="PLP__card_brand-name" >{item.brand} {item.name}</p>
+                                        <p><strong>{currency}
+                                            {item.prices.filter((price) => (price.currency.symbol === currency))[0].amount} </strong></p>
+                                        <p className="PLP_card_stock">{!item.inStock ? "OUT OF STOCK" : ''}</p>
+
+                                        {/* the cart-image will appear if the product is inStock and you hover over the product-card
+                                        after the clicking on cart the product with be added to the cart with first selected attributes as defaults.  */}
+                                        {
+                                            item.inStock &&
+                                            <img src="/Common.png" alt='cart' className="PLP__card_button"
+                                                onClick={() => addToCart(
+                                                    {
+                                                        id: item.id,
+                                                        name: item.name,
+                                                        brand: item.brand,
+                                                        gallery: item.gallery,
+                                                        prices: item.prices,
+                                                        attributes: item.attributes,
+                                                        selectedAttributes: item.attributes.length === 0 ? []
+                                                            : item.attributes.length === 1
+                                                                ? { name: item.attributes[0].name, value: item.attributes[0].items[0].value }
+                                                                : item.attributes.map(x => ({ name: x.name, value: x.items[0].value }))
+                                                    }
+
+                                                )}
+                                            />
+                                        }
+                                    </div>
+                                </>
+                            </div>
+                        ))))}
                 </div>
             </div >)
     }

@@ -1,66 +1,67 @@
 import { Component } from "react";
 import { connect } from 'react-redux';
-import { changeCurrency } from '../redux/actions';
 import CartOverlay from "./CartOverlay";
+import CurrencyOverlay from "./CurrencyOverlay";
 import WithRouter from "./WithRouter";
+import { queryCategory } from '../components/gql-queries';
 
 
 class Navbar extends Component {
     constructor(props) {
         super(props)
-        this.queryCurrency = `
-                        {
-                            currencies {
-                            label
-                            symbol
-                            }
-                        }
-                        `
-        this.elements = ['all', 'tech', 'clothes']
+
+        this.queryCategory = queryCategory
         this.state = {
-            currencies: [],
-            isActive: false
+            isActiveCart: false,
+            isActiveCurrency: false,
+            elements: []
         }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleClick = this.handleClick.bind(this);
+        this.handleClickCart = this.handleClickCart.bind(this);
+        this.handleClickCurrency = this.handleClickCurrency.bind(this);
     }
 
-    // fetching the data from the endpoint with currency data
+    // fetching the data from the endpoint with data about a certain Category name
     async componentDidMount() {
         try {
             const response = await fetch('http://localhost:4000/', {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ query: this.queryCurrency })
+                body: JSON.stringify({ query: this.queryCategory })
             })
             const data = await response.json();
-            // console.log(data.data.currencies);
-            this.setState({ currencies: data.data.currencies });
+            // console.log(data.data.categories);
+
+            this.setState({ elements: data.data.categories });
         } catch (err) {
             console.log(err);
         }
     }
 
-    // handle the changes of the state of currency 
-    handleChange(e) {
-        this.props.changeCurrency(e.target.value);
+    // handle the displaying or not a mini-cart
+    handleClickCart() {
+        if (!this.state.isActiveCurrency) {
+            this.setState(prevState => ({
+                isActiveCart: !prevState.isActiveCart
+            }));
+            document.body.classList.toggle('overflow-hidden');
+        }
     }
 
-    // handle the displaying or not a mini-cart
-    handleClick(e) {
-        this.setState(prevState => ({
-            isActive: !prevState.isActive
-        }));
+    // handle the displaying or not a currency overlay
+    handleClickCurrency() {
+        if (!this.state.isActiveCart) {
+            this.setState(prevState => ({
+                isActiveCurrency: !prevState.isActiveCurrency
+            }));
+            document.body.classList.toggle('overflow-hidden');
+        }
     }
 
 
     render() {
-        const { currencies } = this.state;
-        const { currency, noOfItemInCart } = this.props;
+        const { noOfItemInCart } = this.props;
         const { pathname } = this.props.location;
-
-        let classNameInActive = 'navigation__header_elemet';
-        let classNameActive = 'navigation__header_elemet navigation__header_elemet--selected';
+        const { elements } = this.state;
 
 
         return (
@@ -69,33 +70,30 @@ class Navbar extends Component {
                 {/* styling in the navigation bar the page we are visiting */}
                 <div className="navigation__header">
                     {
-                        this.elements.map((element, i) => (
-                            <a key={i} href={element !== 'all' ? `/${element}` : '/'}
-                                className={pathname === '/' && element === 'all' ? classNameActive
-                                    : pathname === ('/' + element) ? classNameActive : classNameInActive}
-                            >{element}</a>
+                        elements && elements.map((element, i) => (
+                            <a key={i}
+                                href={element.name === 'all' ? '/' : `/${element.name}`}
+                                className={pathname === '/' && element.name === 'all'
+                                    ? 'navigation__header_elemet navigation__header_elemet--selected'
+                                    : pathname === ('/' + element.name)
+                                        ? 'navigation__header_elemet navigation__header_elemet--selected' : 'navigation__header_elemet'}
+                            >{element.name}</a>
                         ))
                     }
                 </div>
 
-                <img className="navigation__logo" src="/a-logo.svg" />
+                <img className="navigation__logo" src="/a-logo.svg" alt='logo' />
 
                 <div className="navigation__actions">
-                    <select className='navigation__actions_currency'
-                        value={currency} onChange={e => this.handleChange(e)}>
-                        {currencies &&
-                            currencies.map((valuta, index) => (
-                                <option key={index} value={valuta.symbol} > {valuta.symbol}</option>
-                            ))
-                        }
-                    </select>
+                    <CurrencyOverlay isActive={this.state.isActiveCurrency} handleClickCurrency={this.handleClickCurrency} />
 
                     <div className="navigation__cart">
-                        <img className="navigation__actions--cart" src="/Vector.svg"
-                            onClick={(e) => this.handleClick(e)} />
+                        <img className="navigation__actions--cart" src="/Vector.svg" alt='vector'
+                            onClick={() => this.handleClickCart()} />
                         {noOfItemInCart > 0 ? <p className="navigation__cart_items">{noOfItemInCart} </p> : <p></p>}
                     </div>
-                    <CartOverlay isActive={this.state.isActive} />
+
+                    <CartOverlay isActive={this.state.isActiveCart} handleClickCart={this.handleClickCart} />
                 </div>
 
             </div >);
@@ -107,8 +105,4 @@ const mapStateToProps = state => ({
     cart: state.shopping.cart
 });
 
-const mapDispatchToProps = dispatch => ({
-    changeCurrency: currency => dispatch(changeCurrency(currency))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(WithRouter(Navbar));
+export default connect(mapStateToProps, null)(WithRouter(Navbar));
