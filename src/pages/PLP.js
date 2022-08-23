@@ -52,7 +52,7 @@ class PLP extends Component {
                 <div className="PLP__cards">
 
                     {categories && Object.values(this.state.categories.filter(element => element.name === select)
-                        .map(element => element.products.map(item => (
+                        .map(element => element.products.slice(0, 6).map(item => (
 
                             // Should be able to visit product page by clicking anywhere on product card.
                             <div className="PLP__card" key={item.id} onClick={() => navigate(`/PDP/${item.id}`)} >
