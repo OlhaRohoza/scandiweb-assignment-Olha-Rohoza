@@ -1,41 +1,78 @@
 
 
-export const queryCurrency = `
-                        {
-                            currencies {
-                            label
-                            symbol
+export const queryCategory = `{
+                                categories {
+                                    name
+                                }
+                            }`
+
+
+export const queryCurrency = `{
+                                currencies {
+                                label
+                                symbol
+                                }
+                            }`
+
+export function queryCategories(name) {
+    return `{
+                category (input: {
+                    title: "${name}"
+                }) 
+                    {
+                        name
+                        products {
+                            id
+                            name
+                            brand
+                            category
+                            gallery
+                            inStock
+                        attributes{
+                            name
+                            items {
+                            value
                             }
                         }
-                        `
-export function queryCategories(id) {
-    return `
-                    {
-                            category (input: {
-                                title: "${id}"
-                            }) {
-                                name
-                        products {
-                                    id
-                                    name
-                                    brand
-                                    category
-                                    gallery
-                                    inStock
-                            attributes{
-                                name
-                                items {
-                                value
-                                }
-                            }
-                            prices {
-                            currency {
-                                            symbol
-                                        }
-                                        amount
+                        prices {
+                        currency {
+                                        symbol
                                     }
+                                    amount
                                 }
                             }
+                        }
 
-                        }`
-} 
+            }`
+}
+
+export function queryProduct(id) {
+    return `{
+                product (id: "${id}") {
+                    id
+                    name
+                    inStock
+                    description
+                    gallery
+                    brand
+                    attributes {
+                    id
+                    name
+                    type
+                    items {
+                        id
+                        value
+                        displayValue
+                    }
+                    }
+                    prices {
+                    currency {
+                        label
+                        symbol
+                    }
+                    amount
+                    }
+
+                }                              
+            }`
+}

@@ -10,8 +10,10 @@ class CurrencyOverlay extends Component {
 
         this.state = {
             currencies: [],
+            isActive: false
         }
 
+        this.handleClick = this.handleClick.bind(this);
         // this.handleChange = this.handleChange.bind(this);
     }
 
@@ -31,6 +33,14 @@ class CurrencyOverlay extends Component {
         }
     }
 
+    // handle the displaying or not a mini-cart
+    handleClick() {
+        this.setState(prevState => ({
+            isActive: !prevState.isActive
+        }));
+        document.body.classList.toggle('overflow-hidden');
+    }
+
     // handle the changes of the state of currency
     // handleChange(e) {
     //     this.props.changeCurrency(e.target.value);
@@ -41,21 +51,19 @@ class CurrencyOverlay extends Component {
     render() {
 
         const { currencies, sign } = this.state;
-        const { currency, isActive } = this.props;
-        console.log(this.props);
+        const { currency } = this.props;
+
         console.log(currencies);
 
-        let classNameInActive = 'navigation__header_elemet';
-        let classNameActive = 'navigation__header_elemet navigation__header_elemet--selected';
 
         return (
             <div className='navigation__actions_currency'>
-                <div className="currency__signs">
-                    <p onClick={() => this.props.handleClick()}>{currency}</p>
-                    {isActive ? <p className="currency__sign-overlay">&and;</p> : <p className="currency__sign-overlay">&or;</p>}
+                <div className="currency__signs" onClick={() => this.handleClick()}>
+                    <p>{currency}</p>
+                    {this.state.isActive ? <p className="currency__sign-overlay">&and;</p> : <p className="currency__sign-overlay">&or;</p>}
                     <p>{sign}</p>
                 </div>
-                <div className="currency__overlay" style={this.props.isActive ? { display: "block" } : { display: 'none' }}>
+                <div className={this.state.isActive ? "currency__overlay displayed" : "currency__overlay hidden"}>
                     {
                         currencies && currencies.filter(element => element.label !== currency)
                             .map(item => (

@@ -3,17 +3,36 @@ import { connect } from 'react-redux';
 import CartOverlay from "./CartOverlay";
 import CurrencyOverlay from "./CurrencyOverlay";
 import WithRouter from "./WithRouter";
+import { queryCategory } from '../components/gql-queries';
 
 
 class Navbar extends Component {
     constructor(props) {
         super(props)
 
-        this.elements = ['all', 'tech', 'clothes']
+        this.queryCategory = queryCategory
         this.state = {
-            isActive: false
+            isActive: false,
+            elements: []
         }
         this.handleClick = this.handleClick.bind(this);
+    }
+
+    // fetching the data from the endpoint with data about a certain Category name
+    async componentDidMount() {
+        try {
+            const response = await fetch('http://localhost:4000/', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query: this.queryCategory })
+            })
+            const data = await response.json();
+            // console.log(data.data.categories);
+
+            this.setState({ elements: data.data.categories });
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     // handle the displaying or not a mini-cart
@@ -28,9 +47,7 @@ class Navbar extends Component {
     render() {
         const { noOfItemInCart } = this.props;
         const { pathname } = this.props.location;
-
-        let classNameInActive = 'navigation__header_elemet';
-        let classNameActive = 'navigation__header_elemet navigation__header_elemet--selected';
+        const { elements } = this.state;
 
 
         return (
@@ -39,11 +56,14 @@ class Navbar extends Component {
                 {/* styling in the navigation bar the page we are visiting */}
                 <div className="navigation__header">
                     {
-                        this.elements.map((element, i) => (
-                            <a key={i} href={element !== 'all' ? `/${element}` : '/'}
-                                className={pathname === '/' && element === 'all' ? classNameActive
-                                    : pathname === ('/' + element) ? classNameActive : classNameInActive}
-                            >{element}</a>
+                        elements && elements.map((element, i) => (
+                            <a key={i}
+                                href={element.name === 'all' ? '/' : `/${element.name}`}
+                                className={pathname === '/' && element.name === 'all'
+                                    ? 'navigation__header_elemet navigation__header_elemet--selected'
+                                    : pathname === ('/' + element.name)
+                                        ? 'navigation__header_elemet navigation__header_elemet--selected' : 'navigation__header_elemet'}
+                            >{element.name}</a>
                         ))
                     }
                 </div>
@@ -51,7 +71,7 @@ class Navbar extends Component {
                 <img className="navigation__logo" src="/a-logo.svg" alt='logo' />
 
                 <div className="navigation__actions">
-                    <CurrencyOverlay isActive={this.state.isActive} handleClick={this.handleClick} />
+                    <CurrencyOverlay />
 
                     <div className="navigation__cart">
                         <img className="navigation__actions--cart" src="/Vector.svg" alt='vector'

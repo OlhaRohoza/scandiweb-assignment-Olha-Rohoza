@@ -4,6 +4,7 @@ import WithRouter from '../components/WithRouter';
 import { connect } from 'react-redux';
 import { addToCart } from '../redux/actions';
 import PDPpictures from "../components/PDPpictures";
+import { queryProduct } from '../components/gql-queries';
 
 
 // PDP - product description page, a.k.a. product page => id = "product id"
@@ -17,35 +18,8 @@ class PDP extends Component {
             prices: [],
             selectedAttributes: {}
         }
+        this.queryProduct = queryProduct(props.params.id);
 
-        this.queryProduct = `{
-                                product (id: "${props.params.id}") {
-                                    id
-                                    name
-                                    inStock
-                                    description
-                                    gallery
-                                    brand
-                                    attributes {
-                                    id
-                                    name
-                                    type
-                                    items {
-                                        id
-                                        value
-                                        displayValue
-                                    }
-                                    }
-                                    prices {
-                                    currency {
-                                        label
-                                        symbol
-                                    }
-                                    amount
-                                    }
-
-                                }                              
-                                }`
         this.handleChange = this.handleChange.bind(this);
     }
 
