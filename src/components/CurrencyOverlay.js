@@ -50,28 +50,34 @@ class CurrencyOverlay extends Component {
 
     render() {
 
-        const { currencies, sign } = this.state;
-        const { currency } = this.props;
+        const { currencies } = this.state;
+        const { currency, changeCurrency } = this.props;
 
         console.log(currencies);
-
 
         return (
             <div className='navigation__actions_currency'>
                 <div className="currency__signs" onClick={() => this.handleClick()}>
                     <p>{currency}</p>
                     {this.state.isActive ? <p className="currency__sign-overlay">&and;</p> : <p className="currency__sign-overlay">&or;</p>}
-                    <p>{sign}</p>
                 </div>
-                <div className={this.state.isActive ? "currency__overlay displayed" : "currency__overlay hidden"}>
-                    {
-                        currencies && currencies.filter(element => element.label !== currency)
-                            .map(item => (
-                                <div className="currency__overlay-row">
-                                    {item.symbol} {item.label}
-                                </div>
-                            ))
-                    }
+
+                <div className={this.state.isActive ? "currency-overlay displayed" : "currency__overlay hidden"}>
+                    <div className={this.state.isActive ? "currency-overlay__container displayed" : "currency-overlay__container hidden"} >
+                        {
+                            currencies && currencies.filter(element => element.symbol !== currency)
+                                .map((item, i) => (
+
+                                    <p
+                                        className="currency-overlay__row" key={i}
+                                        onClick={() => changeCurrency(item.symbol)} >
+                                        {item.symbol} {item.label}
+                                        {console.log(item.symbol)}
+                                    </p>
+
+                                ))
+                        }
+                    </div>
                 </div>
 
                 {/* value={currency} onChange={e => this.handleChange(e)}> */}

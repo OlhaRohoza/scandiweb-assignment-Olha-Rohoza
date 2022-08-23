@@ -36,7 +36,7 @@ class CartOverlay extends Component {
 
         return (
             <div className={this.props.isActive ? 'smallCart displayed' : 'smallCart hidden'} >
-                <div className={this.props.isActive ? 'smallCart__container overflow' : 'smallCart__container'} >
+                <div className={this.props.isActive ? 'smallCart__container displayed' : 'smallCart__container hidden'} >
                     <p className="smallCart__name"><strong>My Bag,</strong> {noOfItemInCart} items</p>
                     <div className="smallCart__items">
 
