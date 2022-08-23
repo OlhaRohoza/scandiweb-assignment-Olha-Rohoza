@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { addToCart } from '../redux/actions';
 import PDPpictures from "../components/PDPpictures";
 import { queryProduct } from '../components/gql-queries';
+import { Markup } from 'interweave';
 
 
 // PDP - product description page, a.k.a. product page => id = "product id"
@@ -166,9 +167,7 @@ class PDP extends Component {
 
                     </div>
                     <br />
-                    <div
-                        dangerouslySetInnerHTML={{ __html: product.description }}
-                    />
+                    <Markup content={product.description} />
                 </div>
 
             </div>)
