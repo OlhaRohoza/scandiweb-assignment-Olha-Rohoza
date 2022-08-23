@@ -41,8 +41,7 @@ class PLP extends Component {
     render() {
         const { navigate, currency, addToCart, select } = this.props;
 
-        console.log(Object.values(this.state.categories.filter(element => element.name === select).map(element => element.products.map(item => item.id))))
-
+        // console.log(Object.values(this.state.categories.filter(element => element.name === select).map(element => element.products.map(item => item.id))))
         const { categories } = this.state;
 
         return (
