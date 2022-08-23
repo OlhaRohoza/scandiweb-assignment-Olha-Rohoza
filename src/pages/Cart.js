@@ -28,8 +28,8 @@ class Cart extends Component {
 
         this.props.cart.map((item) =>
             (total += (item.quantity * item.prices.filter((price) => (price.currency.symbol === this.props.currency))[0].amount)))
-
-        return tax = (total * 0.2).toFixed(2);
+        tax = (total * 0.2).toFixed(2);
+        return tax;
     }
 
 

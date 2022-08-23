@@ -85,7 +85,7 @@ class Navbar extends Component {
                 <img className="navigation__logo" src="/a-logo.svg" alt='logo' />
 
                 <div className="navigation__actions">
-                    <CurrencyOverlay isActive={this.state.isActiveCurrency} handleClickCurrency={this.handleClickCurrency} isActiveCart={this.state.isActiveCart} />
+                    <CurrencyOverlay isActive={this.state.isActiveCurrency} handleClickCurrency={this.handleClickCurrency} />
 
                     <div className="navigation__cart">
                         <img className="navigation__actions--cart" src="/Vector.svg" alt='vector'

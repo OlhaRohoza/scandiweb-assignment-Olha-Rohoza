@@ -51,7 +51,7 @@ class PLP extends Component {
 
                             <div className="PLP__cards_picture">
                                 <img src={item.gallery[0]} alt='item'
-                                    style={!item.inStock ? { opacity: 0.5 } : {}} />
+                                    className={!item.inStock ? 'PLP__cards_picture-outstock' : ''} />
                             </div>
                             <>
                                 <div className="PLP__card_description">

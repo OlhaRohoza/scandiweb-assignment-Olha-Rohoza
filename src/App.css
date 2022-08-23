@@ -208,6 +208,10 @@
   background-color: '#FFFFFF'
 }
 
+.PLP__cards_picture-outstock {
+  opacity: 0.5;
+}
+
 .PLP__card_description {
   padding: 16px;
   width: 100%;
@@ -474,6 +478,7 @@
   width: 120px;
   height: 190px;
   object-fit: contain;
+
 }
 
 .smallCart__item-button {
@@ -594,6 +599,12 @@
 .Cart__item_part {
   display: flex;
   flex-direction: column;
+}
+
+.Cart__item_picture {
+  width: 200px;
+  height: 288px;
+  object-fit: contain;
 }
 
 .Cart__item_picture--buttons {
