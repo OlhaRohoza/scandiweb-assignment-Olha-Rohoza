@@ -84,9 +84,6 @@ class PDP extends Component {
         const { product, gallery, attributes, prices, selectedAttributes } = this.state;
         const { currency, addToCart } = this.props;
 
-        const styleSquare = { height: 54, width: 64, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: '#FFFFFF', color: 'black' };
-        const styleSelectedSquare = { height: 54, width: 64, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: 'black', color: '#FFFFFF' }
-
         return (
             <div className="PDP__container">
                 <PDPpictures gallery={gallery} />
@@ -104,17 +101,16 @@ class PDP extends Component {
                                             <div className="PDP__product_attribute-items">
                                                 {
                                                     element.items.map(item => (
-                                                        <div className="PDP__product_attribute-item"
-                                                            key={item.id}
-                                                            onClick={(e) => this.handleChange(element.name, item.value)}
-
-                                                            style={
+                                                        <div key={item.id}
+                                                            className={
                                                                 selectedAttributes.length >= 2 && selectedAttributes.find(x => x.value === item.value)
-                                                                    ? { height: 32, width: 32, border: '2px solid white', outline: '2px solid #5ECE7B', textAlign: 'center', backgroundColor: item.value }
+                                                                    ? "PDP__product_attribute-item PDP__product_attribute-item-color PDP__product_attribute-item-selected"
                                                                     : (element.name === selectedAttributes.name && item.value === selectedAttributes.value)
-                                                                        ? { height: 32, width: 32, border: '2px solid white', outline: '2px solid #5ECE7B', textAlign: 'center', backgroundColor: item.value }
-                                                                        : { height: 32, width: 32, border: 'none', textAlign: 'center', backgroundColor: item.value }
-                                                            }>
+                                                                        ? "PDP__product_attribute-item PDP__product_attribute-item-color PDP__product_attribute-item-selected"
+                                                                        : "PDP__product_attribute-item PDP__product_attribute-item-color"
+                                                            }
+                                                            onClick={(e) => this.handleChange(element.name, item.value)}
+                                                            style={{ backgroundColor: item.value }}>
                                                         </div>))
                                                 }
                                             </div>
@@ -124,15 +120,16 @@ class PDP extends Component {
                                             <div className="PDP__product_attribute-items">
                                                 {
                                                     element.items.map(item => (
-                                                        <div className="PDP__product_attribute-item" key={item.id}
+                                                        <div key={item.id}
                                                             onClick={(e) => this.handleChange(element.name, item.value)}
                                                             // change style according to the "selected attributes"
-                                                            style={
+                                                            className={
                                                                 selectedAttributes.length >= 2 && selectedAttributes.find(x => (x.value === item.value && x.name === element.name))
-                                                                    ? styleSelectedSquare
+                                                                    ? "PDP__product_attribute-item PDP__product_attribute-item-other PDP__product_attribute-item-other-selected"
                                                                     : (element.name === selectedAttributes.name && item.value === selectedAttributes.value)
-                                                                        ? styleSelectedSquare : styleSquare
-                                                            }> {item.value}</div>
+                                                                        ? "PDP__product_attribute-item PDP__product_attribute-item-other PDP__product_attribute-item-other-selected"
+                                                                        : "PDP__product_attribute-item PDP__product_attribute-item-other"}
+                                                        > {item.value}</div>
 
                                                     ))
                                                 }

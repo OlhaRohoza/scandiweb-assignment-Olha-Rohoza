@@ -29,11 +29,13 @@ class CartOverlay extends Component {
 
 
     render() {
-        const { cart, currency, noOfItemInCart, addToCart, deleteFromCart, isActive } = this.props;
+        const { cart, currency, noOfItemInCart, addToCart, deleteFromCart, isActive, handleClickCart } = this.props;
 
         return (
-            <div className={isActive ? 'smallCart displayed' : 'smallCart hidden'} >
-                <div className={isActive ? 'smallCart__container displayed' : 'smallCart__container hidden'} >
+            <div className={isActive ? 'smallCart displayed' : 'smallCart hidden'}
+                onClick={() => handleClickCart(false)}>
+                <div className={isActive ? 'smallCart__container displayed' : 'smallCart__container hidden'}
+                    onClick={e => e.stopPropagation()} >
                     <p className="smallCart__name"><strong>My Bag,</strong> {noOfItemInCart} items</p>
                     <div className="smallCart__items">
 
@@ -58,15 +60,14 @@ class CartOverlay extends Component {
                                                                 <div className="smallCart__attribute-items">
                                                                     {
                                                                         element.items.map((item, index) => (
-                                                                            <div className="smallCart__attribute-item" key={index}
-                                                                                // change style according to the "selected attributes"
-                                                                                style={
-                                                                                    product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => x.value === item.value)
-                                                                                        ? { height: 24, width: 24, border: '2px solid white', outline: '2px solid #5ECE7B', textAlign: 'center', backgroundColor: item.value }
-                                                                                        : (element.name === product.selectedAttributes.name && item.value === product.selectedAttributes.value)
-                                                                                            ? { height: 24, width: 24, border: '2px solid white', outline: '2px solid #5ECE7B', textAlign: 'center', backgroundColor: item.value }
-                                                                                            : { height: 24, width: 24, border: 'none', textAlign: 'center', backgroundColor: item.value }
-                                                                                }>
+                                                                            // change style according to the "selected attributes" 
+                                                                            <div className={
+                                                                                product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => x.value === item.value)
+                                                                                    ? 'smallCart__attribute-item-color smallCart__attribute-item-color-selected'
+                                                                                    : (element.name === product.selectedAttributes.name && item.value === product.selectedAttributes.value)
+                                                                                        ? 'smallCart__attribute-item-color smallCart__attribute-item-color-selected' : 'smallCart__attribute-item-color'}
+                                                                                key={index}
+                                                                                style={{ backgroundColor: item.value }}>
                                                                             </div>))
                                                                     }
                                                                 </div>
@@ -76,15 +77,14 @@ class CartOverlay extends Component {
                                                                 <div className="smallCart__attribute-items">
                                                                     {
                                                                         element.items.map((item, index) => (
-                                                                            <div className="smallCart__attribute-item" key={index}
-                                                                                // change style according to the "selected attributes"
-                                                                                style={
-                                                                                    product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => (x.value === item.value && x.name === element.name))
-                                                                                        ? { padding: "2px 4px", border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: 'black', color: '#FFFFFF' }
-                                                                                        : (element.name === product.selectedAttributes.name && item.value === product.selectedAttributes.value)
-                                                                                            ? { padding: "2px 4px", border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: 'black', color: '#FFFFFF' }
-                                                                                            : { padding: "2px 4px", border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: '#FFFFFF', color: 'black' }
-                                                                                }> {item.value}</div>
+                                                                            // change style according to the "selected attributes" 
+                                                                            <div
+                                                                                className={product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => (x.value === item.value && x.name === element.name))
+                                                                                    ? 'smallCart__attribute-item smallCart__attribute-item-selected'
+                                                                                    : (element.name === product.selectedAttributes.name && item.value === product.selectedAttributes.value)
+                                                                                        ? 'smallCart__attribute-item smallCart__attribute-item-selected' : 'smallCart__attribute-item'}
+                                                                                key={index}
+                                                                            > {item.value}</div>
 
                                                                         ))
                                                                     }
