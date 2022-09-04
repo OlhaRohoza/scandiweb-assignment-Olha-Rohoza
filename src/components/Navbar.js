@@ -4,6 +4,8 @@ import CartOverlay from "./CartOverlay";
 import CurrencyOverlay from "./CurrencyOverlay";
 import WithRouter from "./WithRouter";
 import { queryCategory } from '../components/gql-queries';
+import { chooseCategory } from '../redux/actions'
+
 
 
 class Navbar extends Component {
@@ -59,9 +61,10 @@ class Navbar extends Component {
 
 
     render() {
-        const { noOfItemInCart } = this.props;
+        const { noOfItemInCart, chooseCategory, categoryElement } = this.props;
         const { pathname } = this.props.location;
         const { elements } = this.state;
+        // console.log(this.props)
 
 
         return (
@@ -71,9 +74,10 @@ class Navbar extends Component {
                 <div className="navigation__header">
                     {
                         elements && elements.map((element, i) => (
-                            <a key={i}
-                                href={element.name === 'all' ? '/' : `/${element.name}`}
-                                className={pathname === '/' && element.name === 'all'
+                            <a key={i} href={`/${element.name}`}
+                                onClick={() => chooseCategory(element.name)}
+                                // location={this.props.location.pathname}
+                                className={elements && element.name === categoryElement
                                     ? 'navigation__header_elemet navigation__header_elemet--selected'
                                     : pathname === ('/' + element.name)
                                         ? 'navigation__header_elemet navigation__header_elemet--selected' : 'navigation__header_elemet'}
@@ -100,9 +104,14 @@ class Navbar extends Component {
     }
 }
 const mapStateToProps = state => ({
+    categoryElement: state.shopping.categoryElement,
     currency: state.shopping.currency,
     noOfItemInCart: state.shopping.noOfItemInCart,
     cart: state.shopping.cart
 });
 
-export default connect(mapStateToProps, null)(WithRouter(Navbar));
+const mapDispatchToProps = dispatch => ({
+    chooseCategory: category => dispatch(chooseCategory(category)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(WithRouter(Navbar));
