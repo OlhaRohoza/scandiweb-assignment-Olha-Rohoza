@@ -1,6 +1,6 @@
-import { combineReducers } from 'redux';
 
 const initialState = {
+    categoryElement: 'all',
     currency: "$",
     noOfItemInCart: 0,
     cart: []
@@ -16,6 +16,10 @@ const objectsEqual = (o1, o2) =>
 export const shopping = (state = initialState, action) => {
     const { type, payload } = action;
     switch (type) {
+
+        case 'CHOOSE_CATEGORY':
+            const { category } = payload;
+            return { ...state, categoryElement: category };
 
         case 'CHANGE_CURRENCY':
             const { currency } = payload;

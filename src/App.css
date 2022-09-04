@@ -69,7 +69,8 @@
   color: #1D1F22;
 }
 
-.navigation__header_elemet--selected {
+.navigation__header_elemet--selected,
+.navigation__header_elemet:active {
   font-weight: 600;
   color: #5ECE7B;
   border-bottom: 2px solid #5ECE7B;
