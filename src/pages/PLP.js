@@ -27,6 +27,7 @@ class PLP extends Component {
             })
             const data = await response.json();
             console.log(data.data.categories);
+
             // data.data.categories.map(element => console.log(element.products))
 
             this.setState({ categories: data.data.categories });
@@ -34,6 +35,7 @@ class PLP extends Component {
             console.log(err);
         }
     }
+
 
 
     render() {
@@ -47,6 +49,7 @@ class PLP extends Component {
                 <div className="PLP__cards">
 
                     {categories && Object.values(this.state.categories.filter(element => element.name === categoryElement)
+
                         .map(element => element.products.slice(0, 6).map(item => (
 
                             // Should be able to visit product page by clicking anywhere on product card.

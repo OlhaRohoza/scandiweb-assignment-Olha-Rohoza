@@ -11,6 +11,7 @@ class CurrencyOverlay extends Component {
         this.state = {
             currencies: []
         }
+        
         this.handleClick = this.handleClick.bind(this)
 
     }
@@ -36,30 +37,34 @@ class CurrencyOverlay extends Component {
         this.props.handleClickCurrency(false);
     }
 
-
     render() {
 
         const { currencies } = this.state;
         const { currency, isActive, handleClickCurrency } = this.props;
 
+
         console.log(this.props);
 
         return (
             <div className='navigation__actions_currency' >
+
                 <div className="currency__signs" onClick={() => handleClickCurrency()}>
                     <p>{currency}</p>
                     {isActive ? <p className="currency__sign-overlay">&and;</p> : <p className="currency__sign-overlay">&or;</p>}
                 </div>
 
+
                 <div className={isActive ? "currency-overlay displayed" : "currency__overlay hidden"}
                     onClick={() => handleClickCurrency(false)}>
                     <div className={isActive ? "currency-overlay__container displayed" : "currency-overlay__container hidden"}
                         onClick={e => e.stopPropagation()} >
+
                         {
                             currencies && currencies.filter(element => element.symbol !== currency)
                                 .map((item, i) => (
                                     <p className="currency-overlay__row" key={i}
                                         onClick={() => this.handleClick(item.symbol)}
+
                                     > {item.symbol} {item.label}
                                     </p>
                                 ))
@@ -67,6 +72,7 @@ class CurrencyOverlay extends Component {
                     </div>
                 </div>
             </div >
+
         )
     }
 }

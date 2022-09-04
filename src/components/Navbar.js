@@ -7,6 +7,7 @@ import { queryCategory } from '../components/gql-queries';
 import { chooseCategory } from '../redux/actions'
 
 
+
 class Navbar extends Component {
     constructor(props) {
         super(props)
@@ -30,7 +31,8 @@ class Navbar extends Component {
                 body: JSON.stringify({ query: this.queryCategory })
             })
             const data = await response.json();
-            console.log(data.data.categories);
+            // console.log(data.data.categories);
+
             this.setState({ elements: data.data.categories });
         } catch (err) {
             console.log(err);
@@ -62,8 +64,8 @@ class Navbar extends Component {
         const { noOfItemInCart, chooseCategory, categoryElement } = this.props;
         const { pathname } = this.props.location;
         const { elements } = this.state;
+        // console.log(this.props)
 
-        console.log(this.props)
 
         return (
             <div className="navigation">

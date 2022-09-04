@@ -36,6 +36,7 @@ class CartOverlay extends Component {
                 onClick={() => handleClickCart(false)}>
                 <div className={isActive ? 'smallCart__container displayed' : 'smallCart__container hidden'}
                     onClick={e => e.stopPropagation()} >
+
                     <p className="smallCart__name"><strong>My Bag,</strong> {noOfItemInCart} items</p>
                     <div className="smallCart__items">
 
