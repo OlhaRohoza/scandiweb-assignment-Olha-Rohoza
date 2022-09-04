@@ -14,14 +14,13 @@ class App extends Component {
       <Router>
         <Navbar />
         <Routes >
-          {/* PLP - product listing page, a.k.a. category page = three categories: all, tech, clothes */}
-          <Route exact path="/" element={<PLP select={'all'} />} />
-          <Route exact path="/tech" element={<PLP select={'tech'} />} />
-          <Route exact path="/clothes" element={<PLP select={'clothes'} />} />
           {/* PDP - product description page, a.k.a. product page => id = "product id" */}
           <Route path="/PDP/:id" element={<PDP />} name='PDP' />
           {/* Cart page */}
           <Route path="/cart" element={<Cart />} />
+          {/* PLP - product listing page, a.k.a. category page = three categories: all, tech, clothes */}
+          <Route exact path="/:category" element={<PLP />} />
+          <Route exact path="/" element={<PLP />} />
         </Routes>
       </Router>
     );
