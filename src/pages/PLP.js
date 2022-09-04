@@ -39,17 +39,18 @@ class PLP extends Component {
 
 
     render() {
-        const { navigate, currency, addToCart, categoryElement } = this.props;
+        const { navigate, currency, addToCart, select } = this.props;
+
+        // console.log(Object.values(this.state.categories.filter(element => element.name === select).map(element => element.products.map(item => item.id))))
         const { categories } = this.state;
 
         return (
             <div className="PLP__container">
 
-                <p className="PLP__container_name">Category "{categoryElement}"</p>
+                <p className="PLP__container_name">Category "{this.props.select}"</p>
                 <div className="PLP__cards">
 
-                    {categories && Object.values(this.state.categories.filter(element => element.name === categoryElement)
-
+                    {categories && Object.values(this.state.categories.filter(element => element.name === select)
                         .map(element => element.products.slice(0, 6).map(item => (
 
                             // Should be able to visit product page by clicking anywhere on product card.
@@ -98,7 +99,6 @@ class PLP extends Component {
 }
 
 const mapStateToProps = state => ({
-    categoryElement: state.shopping.categoryElement,
     currency: state.shopping.currency,
     noOfItemInCart: state.shopping.noOfItemInCart,
     cart: state.shopping.cart,

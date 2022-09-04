@@ -4,12 +4,6 @@ export const changeCurrency = currency => ({
     payload: { currency }
 })
 
-export const chooseCategory = category => ({
-    type: 'CHOOSE_CATEGORY',
-    payload: { category }
-})
-
-
 export const addToCart = (product) => ({
     type: 'ADD_TO_CART',
     payload: {

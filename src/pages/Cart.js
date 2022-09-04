@@ -63,13 +63,15 @@ class Cart extends Component {
                                                             <div className="Cart__attribute-items">
                                                                 {
                                                                     element.items.map((item, index) => (
-                                                                        <div key={index}
-                                                                            // change style according to the "selected attributes" 
-                                                                            className={product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => x.value === item.value)
-                                                                                ? 'Cart__attribute-item Cart__attribute-item-color Cart__attribute-item-color-selected'
-                                                                                : (element.name === product.selectedAttributes.name && item.value === product.selectedAttributes.value)
-                                                                                    ? 'Cart__attribute-item Cart__attribute-item-color Cart__attribute-item-color-selected' : 'Cart__attribute-item Cart__attribute-item-color'}
-                                                                            style={{ backgroundColor: item.value }}>
+                                                                        <div className="Cart__attribute-item" key={index}
+                                                                            // change style according to the "selected attributes"
+                                                                            style={
+                                                                                product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => x.value === item.value)
+                                                                                    ? { height: 24, width: 24, border: '2px solid white', outline: '2px solid #5ECE7B', textAlign: 'center', backgroundColor: item.value }
+                                                                                    : (element.name === product.selectedAttributes.name && item.value === product.selectedAttributes.value)
+                                                                                        ? { height: 24, width: 24, border: '2px solid white', outline: '2px solid #5ECE7B', textAlign: 'center', backgroundColor: item.value }
+                                                                                        : { height: 24, width: 24, border: 'none', textAlign: 'center', backgroundColor: item.value }
+                                                                            }>
                                                                         </div>))
                                                                 }
                                                             </div>
@@ -79,13 +81,15 @@ class Cart extends Component {
                                                             <div className="Cart__attribute-items">
                                                                 {
                                                                     element.items.map((item, index) => (
-                                                                        <div key={index}
-                                                                            // change style according to the "selected attributes" 
-                                                                            className={product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => (x.value === item.value && x.name === element.name))
-                                                                                ? 'Cart__attribute-item Cart__attribute-item-other Cart__attribute-item-other-selected'
-                                                                                : (element.name === product.selectedAttributes.name && item.value === product.selectedAttributes.value)
-                                                                                    ? 'Cart__attribute-item Cart__attribute-item-other Cart__attribute-item-other-selected' : 'Cart__attribute-item Cart__attribute-item-other'}
-                                                                        > {item.value}</div>
+                                                                        <div className="Cart__attribute-item" key={index}
+                                                                            // change style according to the "selected attributes"
+                                                                            style={
+                                                                                product.selectedAttributes.length >= 2 && product.selectedAttributes.find(x => (x.value === item.value && x.name === element.name))
+                                                                                    ? { height: 45, width: 63, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: 'black', color: '#FFFFFF' }
+                                                                                    : (element.name === product.selectedAttributes.name && item.value === product.selectedAttributes.value)
+                                                                                        ? { height: 45, width: 63, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: 'black', color: '#FFFFFF' }
+                                                                                        : { height: 45, width: 63, border: '1px solid #1D1F22', textAlign: 'center', backgroundColor: '#FFFFFF', color: 'black' }
+                                                                            }> {item.value}</div>
 
                                                                     ))
                                                                 }
