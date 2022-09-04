@@ -20,6 +20,7 @@ class App extends Component {
           <Route path="/cart" element={<Cart />} />
           {/* PLP - product listing page, a.k.a. category page = three categories: all, tech, clothes */}
           <Route exact path="/:category" element={<PLP />} />
+          <Route exact path="/" element={<PLP />} />
         </Routes>
       </Router>
     );
